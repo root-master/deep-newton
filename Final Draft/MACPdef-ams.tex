@@ -1,0 +1,75 @@
+% Definitions that require the amsmath.sty and amsthm.sty files
+% Time-stamp: <16/02/05 18:07:53 mcarreira-perpinan>
+
+% -------------- Operators --------------
+
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+
+% Probability
+\newcommand{\Eop}{\operatorname{E}}
+\newcommand{\mean}[2][]{\ensuremath{\Eop_{#1}\left\{#2\right\}}}
+\newcommand{\meanop}{\operatorname{mean}}
+\newcommand{\Mean}[2][]{\ensuremath{\meanop_{#1}\left\{#2\right\}}}
+\newcommand{\aveop}{\Eop}
+\newcommand{\ave}[2][]{\ensuremath{\aveop_{#1}\left\{#2\right\}}}
+\newcommand{\varop}{\operatorname{var}}
+\newcommand{\var}[2][]{\ensuremath{\varop_{#1}\left\{#2\right\}}}
+\newcommand{\stdevop}{\operatorname{stdev}}
+\newcommand{\stdev}[2][]{\ensuremath{\stdevop_{#1}\left\{#2\right\}}}
+\newcommand{\covop}{\operatorname{cov}}
+\newcommand{\cov}[2][]{\ensuremath{\covop_{#1}\left\{#2\right\}}}
+\newcommand{\eff}{\operatorname{eff}}
+\newcommand{\Prop}{\operatorname{Pr}}
+\newcommand{\prob}[1]{\ensuremath{\Prop\left[#1\right]}}
+\newcommand{\Volume}{\operatorname{vol}}
+\newcommand{\volume}[1]{\ensuremath{\Volume\left(#1\right)}}
+\newcommand{\Domain}{\operatorname{dom}}
+\newcommand{\dom}[1]{\ensuremath{\Domain\left(#1\right)}}
+
+% Functions
+\newcommand{\erf}{\operatorname{erf}}
+\newcommand{\sgnop}{\operatorname{sgn}}
+\newcommand{\sgn}[1]{\ensuremath{\sgnop\left(#1\right)}}
+
+% Information theory
+\newcommand{\KLop}{\operatorname{D}}
+%\newcommand{\KLop}{\operatorname{KL}}
+\newcommand{\KL}[2]{\KLop\left(#1\lVert#2\right)} % Kullback-Leibler divergence
+\newcommand{\KLsym}[2]{\KLop\left(#1,#2\right)}   % Symmetrised KL divergence
+
+% Set theory
+% Are "card" and "im" the correct names in English?
+\newcommand{\cardop}{\operatorname{card}}
+\newcommand{\card}[1]{\ensuremath{\cardop\left(#1\right)}}
+\newcommand{\im}{\operatorname{im}}
+\newcommand{\vol}{\operatorname{vol}}
+\newcommand{\convop}{\operatorname{conv}}
+\newcommand{\conv}[1]{\ensuremath{\convop\left(#1\right)}}
+
+% Matrices
+\newcommand{\diagop}{\operatorname{diag}}
+\newcommand{\diag}[1]{\ensuremath{\diagop\left(#1\right)}}
+\newcommand{\cof}{\operatorname{cof}}           % Cofactor of a matrix element
+\newcommand{\adj}{\operatorname{adj}}           % Adjunt matrix
+\newcommand{\traceop}{\operatorname{tr}}
+\newcommand{\trace}[1]{\ensuremath{\traceop\left(#1\right)}}
+\newcommand{\rankop}{\operatorname{rank}}
+\newcommand{\rank}[1]{\ensuremath{\rankop\left(#1\right)}}
+\newcommand{\Nullop}{\operatorname{null}}
+\newcommand{\Null}[1]{\ensuremath{\Nullop\left(#1\right)}}
+\newcommand{\rangeop}{\operatorname{range}}
+\newcommand{\range}[1]{\ensuremath{\rangeop\left(#1\right)}}
+\newcommand{\Dimop}{\operatorname{dim}}
+\newcommand{\Dim}[1]{\ensuremath{\Dimop\left(#1\right)}}
+\newcommand{\spanop}{\operatorname{span}}
+\newcommand{\spn}[1]{\ensuremath{\spanop\left\{#1\right\}}}
+\newcommand{\vectop}{\operatorname{vec}}
+\newcommand{\vect}[1]{\ensuremath{\vectop\left(#1\right)}}
+\newcommand{\condop}{\operatorname{cond}}
+\newcommand{\cond}[1]{\ensuremath{\condop\left(#1\right)}}
+
+% Other
+\newcommand{\proxop}{\operatorname{prox}}
+\newcommand{\prox}[2]{\ensuremath{\proxop_{#1}\left(#2\right)}}
+
