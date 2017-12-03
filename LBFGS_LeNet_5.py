@@ -250,7 +250,7 @@ for layer, _ in weights.items():
 										shape=weights[layer].get_shape())
 aux_w_init = {}
 for layer, _ in weights.items():
-	aux_w_init[layer] = aux_w[layer].assign(aux_w_placeholder)
+	aux_w_init[layer] = aux_w[layer].assign(aux_w_placeholder[layer])
 
 aux_output = model(x,aux_w)
 aux_loss = tf.reduce_mean(
