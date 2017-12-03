@@ -453,7 +453,7 @@ test_error_ref = np.zeros(num_epoch_ref+1)
 ############################## L-BFGS #########################################
 with tf.Session() as sess:
 	sess.run(init)
-	for k in range(5):
+	for k in range(total_minibatches):
 		feed_dict = {}
 		index_minibatch = k % num_minibatches_data
 		epoch = k // num_minibatches_data		
