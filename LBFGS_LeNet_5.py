@@ -435,7 +435,7 @@ print('----------------------------------------------')
 # Batch size
 minibatch = 512
 # Total minibatches
-total_minibatches = 400
+total_minibatches = 4000
 # number of minibatches in data
 num_minibatches_data = data.train.images.shape[0] // minibatch
 
@@ -556,7 +556,7 @@ with tf.Session() as sess:
 		############## FINDING ALPHA TO SATISFY ################################
 		############## WOLFE CONDITIONS ########################################
 		########################################################################
-		alpha_step_vec = np.linspace(1,0,20,dtype='float')
+		alpha_step_vec = np.linspace(1,0.5,10,dtype='float')
 		c1 = 1E-4
 		c2 = 0.9
 		for alpha_step in alpha_step_vec:
