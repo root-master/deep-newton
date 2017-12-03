@@ -139,8 +139,8 @@ weights = {
            			#initializer=tf.zeros_initializer()),
     'b_conv1': tf.get_variable('b_conv1', shape=[K1],
            			#initializer=tf.random_normal_initializer(stddev = 0.01)),
-           			 initializer=tf.zeros_initializer()),
-           			#initializer=tf.contrib.layers.xavier_initializer()),
+           			 #initializer=tf.zeros_initializer()),
+           			initializer=tf.contrib.layers.xavier_initializer()),
     'b_conv2': tf.get_variable('b_conv2', shape=[K3],
            			#initializer=tf.random_normal_initializer(stddev = 0.01)),
            			#initializer=tf.zeros_initializer()),
@@ -235,11 +235,17 @@ for layer, _ in weights.items():
 aux_w = {}
 alpha_tf = tf.placeholder("float",shape=[])
 p_tf = {}
+
+for layer, _ in weights.items():
+	name = layer + 'aux_w_'
+	aux_w[layer] = tf.get_variable(name=name, shape=weights[layer].get_shape(),
+						initializer=tf.contrib.layers.xavier_initializer())
+
 for layer, _ in weights.items():
 	p_tf[layer] = tf.placeholder("float", shape=weights[layer].get_shape())
 
 for layer, _ in weights.items():
-	aux_w[layer] = tf.add(weights[layer], tf.multiply(alpha_tf,p_tf[layer]))
+	aux_w[layer].assign(tf.add(weights[layer], tf.multiply(alpha_tf,p_tf[layer])))
 
 aux_output = model(x,aux_w)
 aux_loss = tf.reduce_mean(
