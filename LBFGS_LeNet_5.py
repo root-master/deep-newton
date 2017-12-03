@@ -123,36 +123,36 @@ y = tf.placeholder("float", [None, n_classes])
 weights = {
     # 5 x 5 convolution, 1 input image, 20 outputs
     'w_conv1': tf.get_variable('w_conv1', shape=[F1, F1, D1, K1],
-           			initializer=tf.random_normal_initializer(stddev = 0.01)),
-           			#initializer=tf.contrib.layers.xavier_initializer()),
+           			#initializer=tf.random_normal_initializer(stddev = 0.01)),
+           			initializer=tf.contrib.layers.xavier_initializer()),
     # 'conv1': tf.Variable(tf.random_normal([F1, F1, D1, K1])),
     # 5x5 conv, 20 inputs, 50 outputs 
     #'conv2': tf.Variable(tf.random_normal([F3, F3, D3, K3])),
     'w_conv2': tf.get_variable('w_conv2', shape=[F3, F3, D3, K3],
-           			initializer=tf.random_normal_initializer(stddev = 0.01)),
-           			#initializer=tf.contrib.layers.xavier_initializer()),
+           			#initializer=tf.random_normal_initializer(stddev = 0.01)),
+           			initializer=tf.contrib.layers.xavier_initializer()),
     # fully connected, 800 inputs, 500 outputs
     #'fc': tf.Variable(tf.random_normal([n_in_fc, n_hidden])),
     'w_fc': tf.get_variable('w_fc', shape=[n_in_fc, n_hidden],
-           			initializer=tf.random_normal_initializer(stddev = 0.01)),
-           			#initializer=tf.contrib.layers.xavier_initializer()),
+           			#initializer=tf.random_normal_initializer(stddev = 0.01)),
+           			initializer=tf.contrib.layers.xavier_initializer()),
     # 500 inputs, 10 outputs (class prediction)
     #'out': tf.Variable(tf.random_normal([n_hidden, n_classes]))
     'w_out': tf.get_variable('w_out', shape=[n_hidden, n_classes],
-           			initializer=tf.random_normal_initializer(stddev = 0.01)),
-           			#initializer=tf.contrib.layers.xavier_initializer()),
+           			#initializer=tf.random_normal_initializer(stddev = 0.01)),
+           			initializer=tf.contrib.layers.xavier_initializer()),
     'b_conv1': tf.get_variable('b_conv1', shape=[K1],
-           			initializer=tf.random_normal_initializer(stddev = 0.01)),
-           			#initializer=tf.zeros_initializer()),
+           			#initializer=tf.random_normal_initializer(stddev = 0.01)),
+           			initializer=tf.zeros_initializer()),
     'b_conv2': tf.get_variable('b_conv2', shape=[K3],
-           			initializer=tf.random_normal_initializer(stddev = 0.01)),
-           			#initializer=tf.zeros_initializer()),
+           			#initializer=tf.random_normal_initializer(stddev = 0.01)),
+           			initializer=tf.zeros_initializer()),
     'b_fc': tf.get_variable('b_fc', shape=[n_hidden],
-           			initializer=tf.random_normal_initializer(stddev = 0.01)),
-           			#initializer=tf.zeros_initializer()),
+           			#initializer=tf.random_normal_initializer(stddev = 0.01)),
+           			initializer=tf.zeros_initializer()),
     'b_out': tf.get_variable('b_out', shape=[n_classes],
-           			initializer=tf.random_normal_initializer(stddev = 0.01))
-           			#initializer=tf.zeros_initializer()) 
+           			#initializer=tf.random_normal_initializer(stddev = 0.01))
+           			initializer=tf.zeros_initializer()) 
 }
 
 S = {}
@@ -175,10 +175,8 @@ def enqueue(mp,new_s_val,new_y_val):
 		S[i][layer] = new_s_val[layer]
 		Y[i][layer] = new_y_val[layer]
 
-def dequeue(new_s_val,new_y_val):
+def dequeue():
 	for k in range(m-1):
-		updateS = {}
-		updateY = {}
 		i = str(k)
 		j = str(k+1)
 		for layer, _ in weights.items():
@@ -520,8 +518,8 @@ with tf.Session() as sess:
 		if k < m:
 			enqueue(k,new_s_val,new_y_val)
 		else:
+			dequeue()
 			enqueue(m-1,new_s_val,new_y_val)
-			dequeue(new_s_val,new_y_val)
 		########################################################################
 		############## UPDATE Weights ##########################################
 		########################################################################		
