@@ -620,7 +620,7 @@ with tf.Session() as sess:
 		sess.run(update_w,feed_dict=feed_dict_w)
 
  		############### LOSS AND ACCURACY EVALUATION ##########################
-		if k % 10 == 0:
+		if k % 1 == 0:
 			train_loss, train_accuracy = \
 					sess.run([loss, accuracy], feed_dict = {x: X_batch, 
 														    y: y_batch} )
