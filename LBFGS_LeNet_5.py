@@ -450,6 +450,8 @@ with tf.Session() as sess:
 		end_index   = (index_minibatch+1) * minibatch
 		X_batch = X_train[start_index:end_index]
 		y_batch = y_train[start_index:end_index]
+		feed_dict = {x: X_batch,
+					 y: y_batch}
 
 		# compute the subsampled gradient for minibatch of data
 		old_grad_w = {}
@@ -464,9 +466,7 @@ with tf.Session() as sess:
 			mp = k
 		else:
 			mp = m
-		feed_dict = {x: X_batch,
-					 y: y_batch}
-
+		
 		p_val = search_direction(mp,old_grad_w)
 		# alpha_step, old_f, old_w, new_f, new_w, old_grad_w, new_grad_w = \
 		# 			Wolfe_conditions(sess,feed_dict,grad_val,p_val)
