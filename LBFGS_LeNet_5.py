@@ -567,7 +567,7 @@ with tf.Session() as sess:
 			for layer, _ in weights.items():
 				feed_dict_aux.update({aux_w_placeholder[layer]: new_w[layer]})
 			sess.run(aux_w_init, feed_dict=feed_dict_aux)
-			new_f = sess.run(aux_loss)			
+			new_f = sess.run(aux_loss,feed_dict=feed_dict)			
 			gradTp = 0
 			
 			for layer, _ in weights.items():
