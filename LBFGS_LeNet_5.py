@@ -479,16 +479,16 @@ with tf.Session() as sess:
 		alpha = {}
 		yTr = {}
 		eps = np.finfo(float).eps
-		for k in range(mp):
-			i = str(k)
+		for t in range(mp):
+			i = str(t)
 			yTs[i] = 0
 			rho[i] = 0
 			sTq[i] = 0
 			alpha[i] = 0
 			yTr[i] = 0
 
-		for k in range(mp-1,-1,-1):
-			i = str(k)
+		for t in range(mp-1,-1,-1):
+			i = str(t)
 			for layer, _ in weights.items():
 				yTs[i] = yTs[i] + np.dot(S[i][layer].flatten(),
 										 Y[i][layer].flatten())		
@@ -516,8 +516,8 @@ with tf.Session() as sess:
 			for layer,_ in weights.items():
 				r[layer] = gamma * q[layer]
 
-		for k in range(mp):
-			i = str(k)
+		for t in range(mp):
+			i = str(t)
 			for layer, _ in weights.items():
 				yTr[i] = yTr[i] + np.dot(Y[i][layer].flatten(), r[layer].flatten())
 
