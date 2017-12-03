@@ -30,9 +30,7 @@ n_classes = data.train.labels.shape[1]  # here MNIST (0-9 digits)
 ########################## HYPER PARAMETER FOR LBFGS ##########################
 ###############################################################################
 # memory limit
-m = 5
-
-#mp = 4
+m = 20
 
 # number of weights and bias in each layer
 n_W = {}
@@ -114,12 +112,6 @@ for key, value in n_W.items():
 x = tf.placeholder("float", [None, n_input])
 y = tf.placeholder("float", [None, n_classes])
 
-# learning_rate = tf.placeholder("float")
-# momentum_tf = tf.placeholder("float")
-
-# weights of LeNet-5 CNN -- tf tensors
-# Calling everything weights from now on 
-
 weights = {
     # 5 x 5 convolution, 1 input image, 20 outputs
     'w_conv1': tf.get_variable('w_conv1', shape=[F1, F1, D1, K1],
@@ -143,16 +135,20 @@ weights = {
            			initializer=tf.contrib.layers.xavier_initializer()),
     'b_conv1': tf.get_variable('b_conv1', shape=[K1],
            			#initializer=tf.random_normal_initializer(stddev = 0.01)),
-           			initializer=tf.zeros_initializer()),
+           			# initializer=tf.zeros_initializer()),
+           			initializer=tf.contrib.layers.xavier_initializer()),
     'b_conv2': tf.get_variable('b_conv2', shape=[K3],
            			#initializer=tf.random_normal_initializer(stddev = 0.01)),
-           			initializer=tf.zeros_initializer()),
+           			#initializer=tf.zeros_initializer()),
+           			initializer=tf.contrib.layers.xavier_initializer()),
     'b_fc': tf.get_variable('b_fc', shape=[n_hidden],
            			#initializer=tf.random_normal_initializer(stddev = 0.01)),
-           			initializer=tf.zeros_initializer()),
+           			#initializer=tf.zeros_initializer()),
+           			initializer=tf.contrib.layers.xavier_initializer()),
     'b_out': tf.get_variable('b_out', shape=[n_classes],
            			#initializer=tf.random_normal_initializer(stddev = 0.01))
-           			initializer=tf.zeros_initializer()) 
+           			# initializer=tf.zeros_initializer()) 
+           			initializer=tf.contrib.layers.xavier_initializer())
 }
 
 S = {}
