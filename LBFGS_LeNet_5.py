@@ -410,7 +410,7 @@ print('----------------------------------------------')
 ################### TO SAVE TRAINING AND TEST LOSS AND ERROR ##################
 ################### FOR REFERENCE NET #########################################
 # Batch size
-minibatch = 1024
+minibatch = 512
 # Total minibatches
 total_minibatches = 10000
 # number of minibatches in data
