@@ -30,7 +30,7 @@ n_classes = data.train.labels.shape[1]  # here MNIST (0-9 digits)
 ########################## HYPER PARAMETER FOR LBFGS ##########################
 ###############################################################################
 # memory limit
-m = 5
+m = 20
 
 #mp = 4
 
