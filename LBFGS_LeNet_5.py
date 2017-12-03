@@ -121,8 +121,8 @@ weights = {
     # 5x5 conv, 20 inputs, 50 outputs 
     #'conv2': tf.Variable(tf.random_normal([F3, F3, D3, K3])),
     'w_conv2': tf.get_variable('w_conv2', shape=[F3, F3, D3, K3],
-           			initializer=tf.random_normal_initializer(stddev = 0.01)),
-           			#initializer=tf.contrib.layers.xavier_initializer()),
+           			#initializer=tf.random_normal_initializer(stddev = 0.01)),
+           			initializer=tf.contrib.layers.xavier_initializer()),
     # fully connected, 800 inputs, 500 outputs
     #'fc': tf.Variable(tf.random_normal([n_in_fc, n_hidden])),
     'w_fc': tf.get_variable('w_fc', shape=[n_in_fc, n_hidden],
@@ -131,20 +131,20 @@ weights = {
     # 500 inputs, 10 outputs (class prediction)
     #'out': tf.Variable(tf.random_normal([n_hidden, n_classes]))
     'w_out': tf.get_variable('w_out', shape=[n_hidden, n_classes],
-           			initializer=tf.random_normal_initializer(stddev = 0.01)),
-           			#initializer=tf.contrib.layers.xavier_initializer()),
+           			#initializer=tf.random_normal_initializer(stddev = 0.01)),
+           			initializer=tf.contrib.layers.xavier_initializer()),
     'b_conv1': tf.get_variable('b_conv1', shape=[K1],
-           			initializer=tf.random_normal_initializer(stddev = 0.01)),
-           			# initializer=tf.zeros_initializer()),
+           			#initializer=tf.random_normal_initializer(stddev = 0.01)),
+           			 initializer=tf.zeros_initializer()),
            			#initializer=tf.contrib.layers.xavier_initializer()),
     'b_conv2': tf.get_variable('b_conv2', shape=[K3],
-           			initializer=tf.random_normal_initializer(stddev = 0.01)),
-           			#initializer=tf.zeros_initializer()),
+           			#initializer=tf.random_normal_initializer(stddev = 0.01)),
+           			initializer=tf.zeros_initializer()),
            			#initializer=tf.contrib.layers.xavier_initializer()),
     'b_fc': tf.get_variable('b_fc', shape=[n_hidden],
            			#initializer=tf.random_normal_initializer(stddev = 0.01)),
-           			#initializer=tf.zeros_initializer()),
-           			initializer=tf.contrib.layers.xavier_initializer()),
+           			initializer=tf.zeros_initializer()),
+           			#initializer=tf.contrib.layers.xavier_initializer()),
     'b_out': tf.get_variable('b_out', shape=[n_classes],
            			#initializer=tf.random_normal_initializer(stddev = 0.01))
            			 initializer=tf.zeros_initializer()) 
@@ -439,6 +439,7 @@ test_error_ref = np.zeros(num_epoch_ref+1)
 with tf.Session() as sess:
 	sess.run(init)
 	for k in range(total_minibatches):
+		feed_dict = {}
 		index_minibatch = k % num_minibatches_data
 		epoch = k // num_minibatches_data		
 		# shuffle data at the begining of each epoch
@@ -450,18 +451,21 @@ with tf.Session() as sess:
 		X_batch = X_train[start_index:end_index]
 		y_batch = y_train[start_index:end_index]
 
+		# compute the subsampled gradient for minibatch of data
+		old_grad_w = {}
+		if k == 0:
+			old_grad_w_list = sess.run(grad_w, feed_dict=feed_dict)	
+			for layer, _ in weights.items():
+				old_grad_w[layer] = old_grad_w_list[layer][0]
+		else:
+			old_grad_w = new_grad_w
+
 		if k < m:
 			mp = k
 		else:
 			mp = m
 		feed_dict = {x: X_batch,
 					 y: y_batch}
-
-		# compute the subsampled gradient for minibatch of data
-		old_grad_w_list = sess.run(grad_w, feed_dict=feed_dict)
-		old_grad_w = {}
-		for layer, _ in weights.items():
-			old_grad_w[layer] = old_grad_w_list[layer][0]
 
 		p_val = search_direction(mp,old_grad_w)
 		# alpha_step, old_f, old_w, new_f, new_w, old_grad_w, new_grad_w = \
