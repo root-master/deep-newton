@@ -381,27 +381,27 @@ def search_direction(mp,old_grad_w):
 
 	r = q	
 	
-	# if (mp >=1):
-	# 	sTy = 0
-	# 	yTy = 0
-	# 	for layer, _ in weights.items(): 
-	# 		sTy = sTy + np.dot( S[str(mp-1)][layer].flatten(),
-	# 							Y[str(mp-1)][layer].flatten())
-	# 		yTy = yTy + np.dot( Y[str(mp-1)][layer].flatten(),
-	# 							Y[str(mp-1)][layer].flatten())
-	# 	gamma = sTy / yTy
-	# 	for layer,_ in weights.items():
-	# 		r[layer] = gamma * q[layer]
+	if (mp >=1):
+		sTy = 0
+		yTy = 0
+		for layer, _ in weights.items(): 
+			sTy = sTy + np.dot( S[str(mp-1)][layer].flatten(),
+								Y[str(mp-1)][layer].flatten())
+			yTy = yTy + np.dot( Y[str(mp-1)][layer].flatten(),
+								Y[str(mp-1)][layer].flatten())
+		gamma = sTy / yTy
+		for layer,_ in weights.items():
+			r[layer] = gamma * q[layer]
 
 	for k in range(mp):
-	 	i = str(k)
-	 	for layer, _ in weights.items():
-	 		yTr[i] = yTr[i] + np.dot(Y[i][layer].flatten(), r[layer].flatten())
+		i = str(k)
+		for layer, _ in weights.items():
+			yTr[i] = yTr[i] + np.dot(Y[i][layer].flatten(), r[layer].flatten())
 
-	 	beta = rho[i] * yTr[i]
+		beta = rho[i] * yTr[i]
 
-	 	for layer, _ in weights.items():
-	 		r[layer] = r[layer] + S[i][layer] * ( alpha[i] - beta )
+		for layer, _ in weights.items():
+			r[layer] = r[layer] + S[i][layer] * ( alpha[i] - beta )
 	p = {}
 	for layer, _ in weights.items():
 		p[layer] = -1 * r[layer]
@@ -459,19 +459,84 @@ with tf.Session() as sess:
 
 		# compute the subsampled gradient for minibatch of data
 		old_grad_w = {}
-		if k == 0:
-			old_grad_w_list = sess.run(grad_w, feed_dict=feed_dict)	
-			for layer, _ in weights.items():
-				old_grad_w[layer] = old_grad_w_list[layer][0]
-		else:
-			old_grad_w = new_grad_w
+		old_grad_w_list = sess.run(grad_w, feed_dict=feed_dict)	
+		for layer, _ in weights.items():
+			old_grad_w[layer] = old_grad_w_list[layer][0]
 
 		if k < m:
 			mp = k
 		else:
 			mp = m
 		
-		p_val = search_direction(mp,old_grad_w)
+		#p_val = search_direction(mp,old_grad_w)
+		########################################################################
+		####################### SEARCH DIRECTION TO DEBUG ######################
+		########################################################################
+		q = old_grad_w
+		yTs = {}
+		rho = {}
+		sTq = {}
+		alpha = {}
+		yTr = {}
+		eps = np.finfo(float).eps
+		for k in range(mp):
+			i = str(k)
+			yTs[i] = 0
+			rho[i] = 0
+			sTq[i] = 0
+			alpha[i] = 0
+			yTr[i] = 0
+
+		for k in range(mp-1,-1,-1):
+			i = str(k)
+			for layer, _ in weights.items():
+				yTs[i] = yTs[i] + np.dot(S[i][layer].flatten(),
+										 Y[i][layer].flatten())		
+			
+			rho[i] = 1 / ( yTs[i] + eps) 
+
+			for layer, _ in weights.items():
+				sTq[i] = sTq[i] + np.dot(S[i][layer].flatten(),q[layer].flatten())
+			alpha[i] = rho[i] * sTq[i]
+			
+			for layer, _ in weights.items():
+				q[layer] = q[layer] - alpha[i] * Y[i][layer]
+
+		r = q	
+		
+		if (mp >=1):
+			sTy = 0
+			yTy = 0
+			for layer, _ in weights.items(): 
+				sTy = sTy + np.dot( S[str(mp-1)][layer].flatten(),
+									Y[str(mp-1)][layer].flatten())
+				yTy = yTy + np.dot( Y[str(mp-1)][layer].flatten(),
+									Y[str(mp-1)][layer].flatten())
+			gamma = sTy / yTy
+			for layer,_ in weights.items():
+				r[layer] = gamma * q[layer]
+
+		for k in range(mp):
+			i = str(k)
+			for layer, _ in weights.items():
+				yTr[i] = yTr[i] + np.dot(Y[i][layer].flatten(), r[layer].flatten())
+
+			beta = rho[i] * yTr[i]
+
+			for layer, _ in weights.items():
+				r[layer] = r[layer] + S[i][layer] * ( alpha[i] - beta )
+		p = {}
+		for layer, _ in weights.items():
+			p[layer] = -1 * r[layer]
+		p_val = p		
+		########################################################################
+		########################################################################
+		########################################################################
+
+
+
+
+
 		# alpha_step, old_f, old_w, new_f, new_w, old_grad_w, new_grad_w = \
 		# 			Wolfe_conditions(sess,feed_dict,grad_val,p_val)
 		########################################################################
