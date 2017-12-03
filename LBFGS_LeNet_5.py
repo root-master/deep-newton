@@ -176,12 +176,14 @@ def enqueue(mp,new_s_val,new_y_val):
 		Y[i][layer] = new_y_val[layer]
 
 def dequeue():
+	S_tmp = S
+	Y_tmp = Y
 	for k in range(m-1):
 		i = str(k)
 		j = str(k+1)
 		for layer, _ in weights.items():
-			S[i][layer] = S[j][layer]
-			Y[i][layer] = Y[j][layer]
+			S[i][layer] = S_tmp[j][layer]
+			Y[i][layer] = Y_tmp[j][layer]
 
 def model(x,_W):
 	# Reshape input to a 4D tensor 
