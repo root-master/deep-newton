@@ -552,7 +552,6 @@ with tf.Session() as sess:
 				.format(epoch, train_loss, train_accuracy) )
 			print('step: {}, val loss: {}, val acuracy: {}' \
 				.format(epoch, val_loss, val_accuracy) )
-			print(alpha_step)
 			# print('step: {}, test loss: {}, test acuracy: {}' \
 			# 	.format(epoch, test_loss, test_accuracy) )
 
