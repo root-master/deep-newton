@@ -30,7 +30,7 @@ n_classes = data.train.labels.shape[1]  # here MNIST (0-9 digits)
 ########################## HYPER PARAMETER FOR LBFGS ##########################
 ###############################################################################
 # memory limit
-m = 10
+m = 5
 
 #mp = 4
 
@@ -410,7 +410,7 @@ print('----------------------------------------------')
 ################### TO SAVE TRAINING AND TEST LOSS AND ERROR ##################
 ################### FOR REFERENCE NET #########################################
 # Batch size
-minibatch = 512
+minibatch = 1024
 # Total minibatches
 total_minibatches = 400
 # number of minibatches in data
