@@ -442,8 +442,8 @@ with tf.Session() as sess:
 		index_minibatch = k % num_minibatches_data
 		epoch = k // num_minibatches_data		
 		# shuffle data at the begining of each epoch
-		if index_minibatch == 0:
-		 	X_train, y_train = shuffle_data(data)
+		# if index_minibatch == 0:
+		#  	X_train, y_train = shuffle_data(data)
 # 		# mini batch 
 		start_index = index_minibatch     * minibatch
 		end_index   = (index_minibatch+1) * minibatch
