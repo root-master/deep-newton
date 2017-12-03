@@ -30,7 +30,7 @@ n_classes = data.train.labels.shape[1]  # here MNIST (0-9 digits)
 ########################## HYPER PARAMETER FOR LBFGS ##########################
 ###############################################################################
 # memory limit
-m = 20
+m = 5
 
 #mp = 4
 
@@ -420,7 +420,7 @@ print('----------------------------------------------')
 ################### TO SAVE TRAINING AND TEST LOSS AND ERROR ##################
 ################### FOR REFERENCE NET #########################################
 # Batch size
-minibatch = 64
+minibatch = 512
 # Total minibatches
 total_minibatches = 400
 # number of minibatches in data
@@ -448,7 +448,7 @@ with tf.Session() as sess:
 		# shuffle data at the begining of each epoch
 		if index_minibatch == 0:
 		 	X_train, y_train = shuffle_data(data)
-# 		# mini batch 
+ 		# mini batch 
 		start_index = index_minibatch     * minibatch
 		end_index   = (index_minibatch+1) * minibatch
 		X_batch = X_train[start_index:end_index]
