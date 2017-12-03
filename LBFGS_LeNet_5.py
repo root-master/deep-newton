@@ -36,7 +36,7 @@ m = 5
 
 # number of weights and bias in each layer
 n_W = {}
-n_b = {}
+dim_W = {}
 
 # network architecture hyper parameters
 input_shape = [-1,28,28,1]
@@ -52,9 +52,10 @@ W1 = (W0 - F1) // S1 + 1
 H1 = (H0 - F1) // S1 + 1
 conv1_dim = [F1, F1, D1, K1]
 conv1_strides = [1,S1,S1,1] 
-n_W['conv1'] = F1 * F1 * D1 * K1
-n_b['conv1'] = K1 
-
+n_W['w_conv1'] = F1 * F1 * D1 * K1
+n_W['b_conv1'] = K1 
+dim_W['w_conv1'] = [F1, F1, D1, K1]
+dim_W['b_conv1'] = [K1]
 # Layer 2 -- max pool
 D2 = K1
 F2 = 2
@@ -74,8 +75,10 @@ W3 = (W2 - F3) // S3 + 1
 H3 = (H2 - F3) // S3 + 1
 conv2_dim = [F3, F3, D3, K3]
 conv2_strides = [1,S3,S3,1] 
-n_W['conv2'] = F3 * F3 * D3 * K3
-n_b['conv2'] = K3 
+n_W['w_conv2'] = F3 * F3 * D3 * K3
+n_W['b_conv2'] = K3 
+dim_W['w_conv2'] = [F3, F3, D3, K3]
+dim_W['b_conv2'] = [K3]
 
 # Layer 4 -- max pool
 D4 = K3
@@ -92,19 +95,20 @@ layer4_strides = [1,S4,S4,1]
 n_in_fc = W4 * H4 * D4
 n_hidden = 500
 fc_dim = [n_in_fc,n_hidden]
-n_W['fc'] = n_in_fc * n_hidden
-n_b['fc'] = n_hidden
-
+n_W['w_fc'] = n_in_fc * n_hidden
+n_W['b_fc'] = n_hidden
+dim_W['w_fc'] = [n_in_fc,n_hidden]
+dim_W['b_fc'] = [n_hidden]
 # Layer 6 -- output
 n_in_out = n_hidden
-n_W['out'] = n_hidden * n_classes
-n_b['out'] = n_classes
+n_W['w_out'] = n_hidden * n_classes
+n_W['b_out'] = n_classes
+dim_W['w_out'] = [n_hidden,n_classes]
+dim_W['b_out'] = [n_classes]
+
 
 for key, value in n_W.items():
 	n_W[key] = int(value)
-
-for key, value in n_b.items():
-	n_b[key] = int(value)
 
 # tf Graph input
 x = tf.placeholder("float", [None, n_input])
@@ -154,39 +158,24 @@ for k in range(m):
 for k in range(m):
 	i = str(k)
 	for layer, _ in weights.items():
-		name = layer + '_s_store_' + i
-		S[i][layer] = tf.get_variable(	name=name,
-										shape=weights[layer].get_shape(),
-										initializer=tf.contrib.layers.xavier_initializer())
-		name = layer + '_y_store_' + i
-		Y[i][layer] = tf.get_variable(	name=name,
-										shape=weights[layer].get_shape(),
-										initializer=tf.contrib.layers.xavier_initializer())
-new_s = {}
-new_y = {}
+		S[i][layer] = np.random.rand(n_W[layer]).reshape(dim_W[layer])
+		Y[i][layer] = np.random.rand(n_W[layer]).reshape(dim_W[layer])
 
-for layer, _ in weights.items():
-	name = layer + '_new_s'
-	new_s[layer] = tf.get_variable(	name=name,
-									shape=weights[layer].get_shape(),
-									initializer=tf.contrib.layers.xavier_initializer())
+def enqueue(mp,new_s_val,new_y_val):
+	for layer, _ in weights.items():
+		i = str(mp)
+		S[i][layer] = new_s_val[layer]
+		Y[i][layer] = new_y_val[layer]
 
-for layer, _ in weights.items():
-	name = layer + '_new_y'
-	new_y[layer] = tf.get_variable(	name=name,
-									shape=weights[layer].get_shape(),
-									initializer=tf.contrib.layers.xavier_initializer())
-
-
-def enqueue(queue=None, k=0, new_s=None, new_y=None):
-	if queue is None:
-		pass
-	#if k < len(queue.keys()):
-
-
-
-def dequeue():
-	pass
+def dequeue(new_s_val,new_y_val):
+	for k in range(m-1):
+		updateS = {}
+		updateY = {}
+		i = str(k)
+		j = str(k+1)
+		for layer, _ in weights.items():
+			S[i][layer] = S[j][layer]
+			Y[i][layer] = Y[j][layer]
 
 def model(x,_W):
 	# Reshape input to a 4D tensor 
@@ -228,210 +217,190 @@ loss = tf.reduce_mean(
 	tf.nn.softmax_cross_entropy_with_logits(labels = y, logits = output))
 correct_prediction = tf.equal(tf.argmax(output, 1), tf.argmax(y, 1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
-
-
 ###############################################################################
 ######################## TF GRADINETS #########################################
 ###############################################################################
 grad_w = {}
 for layer, _ in weights.items():
 	grad_w[layer] = tf.gradients(xs=weights[layer], ys=loss)
-
 ###############################################################################
 ######################## TF Auxilary variables ################################
 ###############################################################################
 aux_w = {}
+alpha_tf = tf.placeholder("float",shape=[])
+p_tf = {}
 for layer, _ in weights.items():
-	aux_w[layer] = tf.identity(weights[layer])
+	p_tf[layer] = tf.placeholder("float", shape=weights[layer].get_shape())
 
-aux_loss = model(x,aux_w)
+for layer, _ in weights.items():
+	aux_w[layer] = tf.add(weights[layer], tf.multiply(alpha_tf,p_tf[layer]))
+
+aux_output = model(x,aux_w)
+aux_loss = tf.reduce_mean(
+	tf.nn.softmax_cross_entropy_with_logits(labels = y, logits = aux_output))
 aux_grad_w = {}
 for layer, _ in weights.items():
 	aux_grad_w[layer] = tf.gradients(xs=aux_w[layer], ys=aux_loss)
 
+update_w = {}
+update_w_placeholder = {}
+for layer, _ in weights.items():
+	update_w_placeholder[layer] = tf.placeholder(dtype="float",
+										shape=weights[layer].get_shape())
+for layer, _ in weights.items():
+	update_w[layer] = weights[layer].assign(update_w_placeholder[layer])
 ###############################################################################
 ######################## LBFGS GRAPH ##########################################
 ###############################################################################
-
-###############################################################################
-######################## UPDATE GRADS #########################################
-###############################################################################
-# step size
-# alpha_step = tf.placeholder("float",shape=[])
-# search direction
-# p = {}
-# p = {}
+# q_tf = {}
 # for layer, _ in weights.items():
-# 	name = 'p_' + layer
-# 	p[layer] = tf.get_variable(name=name, 
-# 							  shape=weights[layer].get_shape())
+# 	q_tf[layer] = tf.placeholder("float",weights[layer].get_shape())
 
-#with tf.name_scope('L-BFGS-two-loop-recurssion'):
+# q = {}
+# for layer, _ in weights.items():
+# 	name = layer + 'q'
+# 	q[layer] = tf.get_variable(shape=weights[layer].get_shape(),name=name)
 
-def search_direction(mp=0):
+# init_q = {}
+# for layer, _ in weights.items():
+# 	init_q[layer] = q[layer].assign(q_tf[layer])
+
+# rho = {}
+# sTq = {}
+# yTr = {}
+# yTs = {}
+# alpha = {}
+# beta = tf.Variable(initial_value=[0.0])
+# gamma = tf.Variable(initial_value=[0.0])
+# sTy = tf.Variable(initial_value=[0.0])
+# # initialization
+# for k in range(m-1,-1,-1):
+# 	i = str(k)
+# 	rho[i] = tf.Variable(initial_value=[1.0])
+# 	sTq[i] = tf.Variable(initial_value=[0.0])
+# 	yTr[i] = tf.Variable(initial_value=[0.0])
+# 	yTs[i] = tf.Variable(initial_value=[0.0])
+# 	alpha[i] = tf.Variable(initial_value=[0.0])
+
+# zero_tf = tf.placeholder("float",shape=[None])
+# one_tf = tf.placeholder("float",shape=[None])
+# init_loop_var = {}
+# init_loop_var[beta] = beta.assign(zero_tf)
+# init_loop_var[gamma] = gamma.assign(zero_tf)
+# init_loop_var[sTy] = sTy.assign(zero_tf)
+# for k in range(m-1,-1,-1):
+# 	i = str(k)
+# 	init_loop_var[rho[i]] = rho[i].assign(zero_tf)
+# 	init_loop_var[sTq[i]] = sTq[i].assign(zero_tf)
+# 	init_loop_var[yTr[i]] = yTr[i].assign(zero_tf)
+# 	init_loop_var[yTs[i]] = yTs[i].assign(zero_tf)
+# 	init_loop_var[alpha[i]] = alpha[i].assign(zero_tf)
+
+# def search_direction(mp=0):	
+# 	for k in range(mp-1,-1,-1):
+# 		i = str(k)
+# 		for layer, _ in weights.items():
+# 			yTs[i] = tf.add(yTs[i], \
+# 				tf.reduce_sum( tf.multiply(S[i][layer],Y[i][layer] )))#))
+
+# 		for layer, _ in weights.items():		
+# 			rho[i] = tf.reciprocal(yTs[i])
+
+# 		for layer, _ in weights.items():
+# 			sTq[i] = tf.add( sTq[i] , \
+# 				tf.reduce_sum(tf.multiply(S[i][layer],q[layer] )))
+# 		alpha[i] = tf.multiply(rho[i],sTq[i])
+		
+# 		for layer, _ in weights.items():
+# 			q[layer] = tf.subtract(q[layer], tf.multiply(alpha[i],Y[i][layer]))
+
+# 	r = {}
+# 	for layer, _ in weights.items():
+# 		r[layer] = tf.identity(q[layer])
+	
+# 	global sTy
+# 	if (mp >=1 ):
+# 		for layer, _ in weights.items(): 
+# 			sTy = tf.add(sTy , tf.reduce_sum(tf.multiply( 
+# 												S[str(mp-1)][layer], 
+# 												Y[str(mp-1)][layer])))
+# 		gamma = tf.div(sTy,rho[str(mp-1)])
+# 		for layer,_ in weights.items():
+# 			r[layer] = tf.multiply(gamma , q[layer])
+
+# 	for k in range(mp):
+# 	 	i = str(k)
+# 	 	for layer, _ in weights.items():
+# 	 		yTr[i] = tf.add(yTr[i],tf.reduce_sum(tf.multiply(Y[i][layer],
+# 	 														 r[layer] )))
+# 	 	beta = tf.multiply(rho[i], yTr[i])
+
+# 	 	for layer, _ in weights.items():
+# 	 		r[layer] = tf.add(r[layer],tf.multiply(tf.subtract(alpha[i],beta),
+# 	 															   S[i][layer]))
+# 	p = {}
+# 	for layer, _ in weights.items():
+# 		p[layer] = tf.negative(r[layer])
+# 	return p		
+def search_direction(mp,old_grad_w):	
+	q = old_grad_w
+	yTs = {}
 	rho = {}
 	sTq = {}
-	yTr = {}
 	alpha = {}
-	q = {}
-	for layer, _ in weights.items():
-		q[layer] = tf.squeeze( tf.identity(grad_w[layer]),axis=0)
-	#mp = tf.placeholder("int")
-	
-	# initialization
-	for k in range(m-1,-1,-1):
+	yTr = {}
+	eps = np.finfo(float).eps
+	for k in range(mp):
 		i = str(k)
-		rho[i] = tf.Variable(initial_value=[0.1])
-		sTq[i] = tf.Variable(initial_value=[0.1])
-		yTr[i] = tf.Variable(initial_value=[0.1])
-		alpha[i] = tf.Variable(initial_value=[0.1])
-		beta = tf.Variable(initial_value=[0.1])
-
-	gamma = tf.Variable(initial_value=[0.1])
-
-	sTy = tf.Variable(initial_value=[1.0])
+		yTs[i] = 0
+		rho[i] = 0
+		sTq[i] = 0
+		alpha[i] = 0
+		yTr[i] = 0
 
 	for k in range(mp-1,-1,-1):
 		i = str(k)
 		for layer, _ in weights.items():
-			rho[i].assign(rho[i] + 1 / ( tf.reduce_sum(
-							tf.multiply(S[i][layer],Y[i][layer] ))))
+			yTs[i] = yTs[i] + np.dot(S[i][layer].flatten(),
+									 Y[i][layer].flatten())		
+		
+		rho[i] = 1 / ( yTs[i] + eps) 
+
 		for layer, _ in weights.items():
-			sTq[i].assign(sTq[i] + \
-				( tf.reduce_sum(tf.multiply(S[i][layer],q[layer] ))))
-		alpha[i] = tf.multiply(rho[i],sTq[i])
+			sTq[i] = sTq[i] + np.dot(S[i][layer].flatten(),q[layer].flatten())
+		alpha[i] = rho[i] * sTq[i]
 		
 		for layer, _ in weights.items():
-			q[layer] = q[layer] - tf.multiply(alpha[i],Y[i][layer])
+			q[layer] = q[layer] - alpha[i] * Y[i][layer]
 
-	r = {}
-	for layer, _ in weights.items():
-		r[layer] = tf.identity(q[layer])
+	r = q	
 	if (mp >=1 ):
+		sTy = 0
 		for layer, _ in weights.items(): 
-			sTy.assign(tf.add(sTy , tf.reduce_sum(tf.multiply( 
-												S[str(mp-1)][layer], 
-												Y[str(mp-1)][layer]))))
+			sTy = sTy + np.dot( S[str(mp-1)][layer].flatten(),
+								Y[str(mp-1)][layer].flatten())
 		gamma = sTy / rho[str(mp-1)]
 		for layer,_ in weights.items():
-			r[layer] = tf.multiply(gamma , q[layer])
+			r[layer] = gamma * q[layer]
 
 	for k in range(mp):
-		i = str(k)
-		for layer, _ in weights.items():
-			yTr[i].assign(yTr[i] + \
-				( tf.reduce_sum(tf.multiply(Y[i][layer],r[layer] ))))
-		beta = tf.multiply( rho[i], yTr[i] )
+	 	i = str(k)
+	 	for layer, _ in weights.items():
+	 		yTr[i] = yTr[i] + np.dot(Y[i][layer].flatten(), r[layer].flatten())
 
-		for layer, _ in weights.items():
-			r[layer] = tf.add(r[layer],
-									tf.multiply(
-										tf.subtract( alpha[i],beta ),
-										S[i][layer]))
-	return r		
+	 	beta = rho[i] * yTr[i]
 
-
-#with tf.name_scope('L-BFGS-update'):
-# One iteration of L-BFGS
-def body():
-	return pass
-
-def cond(alpha_tf):
-	Wolfe = tf.cond(tf.logical_and(cond_1,cond_2),lambda: tf.constant(True))
-	return pass
-
-def Wolfe_conditions(p,old_grad_w):
-	alpha_step_vec = np.linspace(1,0,20,dtype='float')
-	c1 = 1E-4
-	c2 = 0.9
-
-	Wolfe = tf.Variable(False)
-	for alpha_step in alpha_step_vec:
-		new_w = {}
-		alpha_tf = tf.Variable(initial_value=alpha_step,dtype='float')
-		for layer, _ in weights.items():
-			new_w[layer] = weights[layer] + tf.scalar_mul(  alpha_tf,
-															p[layer])		
-		new_output = model(x, new_w)
-		new_loss = tf.reduce_mean(
-			tf.nn.softmax_cross_entropy_with_logits(labels = y, 
-													logits = new_output))
-
-		rhs_1= tf.Variable([0.0])
-		for layer, _ in weights.items():
-			rhs_1 + tf.multiply(c1*alpha_tf,
-							  tf.reduce_sum(tf.multiply( p[layer], 
-									                     old_grad_w[layer])))
-		rhs_1 = rhs_1 + output
-		lhs_1 = new_loss
-
-		cond_1 = lambda: tf.greater_equal(rhs_1,lhs_1)
-			# ops to update weights and biases given search direction and step size 
-		
-		for layer, _ in weights.items():
-			aux_w[layer] = tf.identity(new_w[layer])
-
-		new_grad_w = {}
-		for layer, _ in weights.items():
-			new_grad_w[layer] = tf.squeeze(tf.identity(aux_grad_w[layer]),axis=0)
-
-		# new_grad_w = {}		
-		# for layer, _ in weights.items():
-		# 	new_grad_w[layer] = tf.squeeze(new_grad_w_op[layer])
-
-		lhs_2 = tf.Variable([0.0])
-		for layer, _ in weights.items():
-			lhs_2 + tf.reduce_sum(tf.multiply(p[layer],new_grad_w[layer]))
-		rhs_2 = tf.Variable([0.0])
-		for layer, _ in weights.items():
-			rhs_1 + tf.multiply(c2,tf.reduce_sum(tf.multiply(p[layer], 
-									                         old_grad_w[layer])))
-		cond_2 = lambda: tf.less_equal(rhs_2,lhs_2)
-		Wolfe = tf.cond(tf.logical_and(cond_1,cond_2),lambda: tf.constant(True))
-		
-	
-	return alpha_tf, new_w, new_grad_w
-
-def LBFGS_update(mp=0):
-	# current w
-	old_w = {}
+	 	for layer, _ in weights.items():
+	 		r[layer] = r[layer] + S[i][layer] * ( alpha[i] - beta )
+	p = {}
 	for layer, _ in weights.items():
-		old_w[layer] = tf.identity(weights[layer])
+		p[layer] = -1 * r[layer]
+	return p		
 
-	old_grad_w = {}
-	for layer, _ in weights.items():
-		old_grad_w[layer] = tf.squeeze( tf.identity(grad_w[layer]),axis=0)
-		
-	
-	# ops to update weights and biases given search direction and step size 
-	new_w = {}	
-	p = search_direction(mp)
-	
-	alpha_tf, new_w, new_grad_w = Wolfe_conditions(p,old_grad_w)
-	
-	for layer, _ in weights.items():
-		new_w[layer] = weights[layer] + tf.multiply(alpha_step , p[layer])
-
-	#update_cond = tf.placeholder('float')
-	for layer, _ in weights.items():
-		weights[layer] = tf.identity(new_w)
-
-	new_grad_w = {}
-	for layer, _ in weights.items():
-		new_grad_w[layer] = tf.squeeze( tf.identity(grad_w[layer]),axis=0)
-
-	for layer, _ in weights.items():
-		new_s[layer] = new_w[layer] - old_w[layer]
-
-	for layer, _ in weights.items():
-		new_y[layer] = new_grad_w[layer] - old_grad_w[layer]
-
-
-	return old_w, new_w, old_grad_w, new_grad_w, new_s, new_y
-
+################################################################################
+################################################################################
 saver = tf.train.Saver()
 init = tf.global_variables_initializer()
-
 ###############################################################################
 ######## training data and neural net architecture with weights w #############
 ###############################################################################
@@ -443,7 +412,7 @@ print('----------------------------------------------')
 # Batch size
 minibatch = 512
 # Total minibatches
-total_minibatches = 30
+total_minibatches = 300
 # number of minibatches in data
 num_minibatches_data = data.train.images.shape[0] // minibatch
 
@@ -480,10 +449,80 @@ with tf.Session() as sess:
 		else:
 			mp = m
 		feed_dict = {x: X_batch,
-					y: y_batch}
-		old_w_v, new_w_v, old_grad_w_v, new_grad_w_v, new_s_v, new_y_v = sess.run(LBFGS_update(mp),feed_dict=feed_dict)
+					 y: y_batch}
+
+		# compute the subsampled gradient for minibatch of data
+		old_grad_w_list = sess.run(grad_w, feed_dict=feed_dict)
+		old_grad_w = {}
+		for layer, _ in weights.items():
+			old_grad_w[layer] = old_grad_w_list[layer][0]
+
+		p_val = search_direction(mp,old_grad_w)
+		# alpha_step, old_f, old_w, new_f, new_w, old_grad_w, new_grad_w = \
+		# 			Wolfe_conditions(sess,feed_dict,grad_val,p_val)
+		########################################################################
+		############## FINDING ALPHA TO SATISFY ################################
+		############## WOLFE CONDITIONS ########################################
+		########################################################################
+		alpha_step_vec = np.linspace(1,0,20,dtype='float')
+		c1 = 1E-4
+		c2 = 0.9
+		for alpha_step in alpha_step_vec:
+			feed_dict.update({alpha_tf: alpha_step})
+			for layer, _ in weights.items():
+				feed_dict.update({ p_tf[layer]: p_val[layer] })
+			old_f = sess.run(loss, feed_dict=feed_dict)
+			new_f = sess.run(aux_loss, feed_dict=feed_dict)
+			old_w = sess.run(weights)
+			new_w = sess.run(aux_w, feed_dict=feed_dict)
+			gradTp = 0
+			
+			for layer, _ in weights.items():
+				gradTp = gradTp + np.dot(old_grad_w[layer].flatten(),
+										 p_val[layer].flatten())
+			rhs = c1 * alpha_step * gradTp
+
+			if new_f <= (old_f + rhs):
+				Wolfe_cond_1 = True
+			else:
+				Wolfe_cond_1 = False
+
+			new_grad_w = sess.run(aux_w,feed_dict=feed_dict)
+
+			new_grad_wTp = 0
+			for layer, _ in weights.items():
+				new_grad_wTp = new_grad_wTp + np.dot(new_grad_w[layer].flatten(),
+													 p_val[layer].flatten())
+			if new_grad_wTp >= c2 * gradTp:
+				Wolfe_cond_2 = True
+			else:
+				Wolfe_cond_2 = False
+
+			if Wolfe_cond_1 and Wolfe_cond_2:
+				break
+		########################################################################
+		############## UPDATE Storage S and Y ##################################
+		########################################################################		
+		new_s_val = {}
+		new_y_val = {}
+		for layer, _ in weights.items():
+			new_s_val[layer] = new_w[layer] - old_w[layer]
+			new_y_val[layer] = new_grad_w[layer] - old_grad_w[layer]
 		
-# 		############### LOSS AND ACCURACY EVALUATION ##########################
+		if k < m:
+			enqueue(k,new_s_val,new_y_val)
+		else:
+			enqueue(m-1,new_s_val,new_y_val)
+			dequeue(new_s_val,new_y_val)
+		########################################################################
+		############## UPDATE Weights ##########################################
+		########################################################################		
+		feed_dict_w = {}
+		for layer, _ in weights.items():
+			feed_dict_w.update({update_w_placeholder[layer]: new_w[layer]})
+		sess.run(update_w,feed_dict=feed_dict_w)
+
+ 		############### LOSS AND ACCURACY EVALUATION ##########################
 		if index_minibatch == 0:
 			train_loss, train_accuracy = \
 					sess.run([loss, accuracy], feed_dict = {x: X_batch, 
@@ -541,3 +580,6 @@ with tf.Session() as sess:
 # reference weight and bias
 	# w_bar = sess.run(weights)
 	# bias_bar = sess.run(biases)
+# sTy_np = {}
+# for key, _ in S_val.items():
+# 	sTy_np[key] = 0
