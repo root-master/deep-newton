@@ -410,9 +410,9 @@ print('----------------------------------------------')
 ################### TO SAVE TRAINING AND TEST LOSS AND ERROR ##################
 ################### FOR REFERENCE NET #########################################
 # Batch size
-minibatch = 512
+minibatch = 1024
 # Total minibatches
-total_minibatches = 300
+total_minibatches = 10000
 # number of minibatches in data
 num_minibatches_data = data.train.images.shape[0] // minibatch
 
@@ -543,11 +543,11 @@ with tf.Session() as sess:
 			test_error_ref[epoch] = 1 - test_accuracy
 
 			print('step: {}, train loss: {}, train acuracy: {}' \
-				.format(i, train_loss, train_accuracy) )
+				.format(epoch, train_loss, train_accuracy) )
 			print('step: {}, val loss: {}, val acuracy: {}' \
-				.format(i, val_loss, val_accuracy) )
+				.format(epoch, val_loss, val_accuracy) )
 			print('step: {}, test loss: {}, test acuracy: {}' \
-				.format(i, test_loss, test_accuracy) )
+				.format(epoch, test_loss, test_accuracy) )
 
 		
 # 	save_path = saver.save(sess, model_file_path)
