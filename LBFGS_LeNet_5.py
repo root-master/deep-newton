@@ -566,7 +566,11 @@ with tf.Session() as sess:
 			else:
 				Wolfe_cond_1 = False
 
-			new_grad_w = sess.run(aux_w,feed_dict=feed_dict)
+			new_grad_w_list= sess.run(aux_grad_w,feed_dict=feed_dict)
+			new_grad_w = {}
+			for layer, _ in weights.items():
+				new_grad_w[layer] = new_grad_w_list[layer][0]
+
 
 			new_grad_wTp = 0
 			for layer, _ in weights.items():
