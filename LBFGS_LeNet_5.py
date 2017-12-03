@@ -381,17 +381,17 @@ def search_direction(mp,old_grad_w):
 
 	r = q	
 	
-	if (mp >=1):
-		sTy = 0
-		yTy = 0
-		for layer, _ in weights.items(): 
-			sTy = sTy + np.dot( S[str(mp-1)][layer].flatten(),
-								Y[str(mp-1)][layer].flatten())
-			yTy = yTy + np.dot( Y[str(mp-1)][layer].flatten(),
-								Y[str(mp-1)][layer].flatten())
-		gamma = sTy / yTy
-		for layer,_ in weights.items():
-			r[layer] = gamma * q[layer]
+	# if (mp >=1):
+	# 	sTy = 0
+	# 	yTy = 0
+	# 	for layer, _ in weights.items(): 
+	# 		sTy = sTy + np.dot( S[str(mp-1)][layer].flatten(),
+	# 							Y[str(mp-1)][layer].flatten())
+	# 		yTy = yTy + np.dot( Y[str(mp-1)][layer].flatten(),
+	# 							Y[str(mp-1)][layer].flatten())
+	# 	gamma = sTy / yTy
+	# 	for layer,_ in weights.items():
+	# 		r[layer] = gamma * q[layer]
 
 	for k in range(mp):
 	 	i = str(k)
