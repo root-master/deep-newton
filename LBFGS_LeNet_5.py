@@ -448,7 +448,7 @@ test_error_ref = np.zeros(num_epoch_ref+1)
 ############################## L-BFGS #########################################
 with tf.Session() as sess:
 	sess.run(init)
-	for k in range(total_minibatches):
+	for k in range(5):
 		feed_dict = {}
 		index_minibatch = k % num_minibatches_data
 		epoch = k // num_minibatches_data		
@@ -550,12 +550,13 @@ with tf.Session() as sess:
 		############## WOLFE CONDITIONS ########################################
 		########################################################################
 		alpha_step_vec = np.linspace(1,0,20,dtype='float')
-		c1 = 1E-4
+		c1 = 1E-7
 		c2 = 0.9
 		for alpha_step in alpha_step_vec:
 			feed_dict.update({alpha_tf: alpha_step})
 			for layer, _ in weights.items():
 				feed_dict.update({ p_tf[layer]: p_val[layer] })
+			
 			old_f = sess.run(loss, feed_dict=feed_dict)
 			new_f = sess.run(aux_loss, feed_dict=feed_dict)
 			old_w = sess.run(weights)
