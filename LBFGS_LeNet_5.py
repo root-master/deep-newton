@@ -233,19 +233,24 @@ for layer, _ in weights.items():
 ######################## TF Auxilary variables ################################
 ###############################################################################
 aux_w = {}
-alpha_tf = tf.placeholder("float",shape=[])
-p_tf = {}
+# alpha_tf = tf.placeholder("float",shape=[])
+# p_tf = {}
 
 for layer, _ in weights.items():
 	name = layer + 'aux_w_'
 	aux_w[layer] = tf.get_variable(name=name, shape=weights[layer].get_shape(),
 						initializer=tf.contrib.layers.xavier_initializer())
 
-for layer, _ in weights.items():
-	p_tf[layer] = tf.placeholder("float", shape=weights[layer].get_shape())
+# for layer, _ in weights.items():
+# 	p_tf[layer] = tf.placeholder("float", shape=weights[layer].get_shape())
 
+aux_w_placeholder = {}
 for layer, _ in weights.items():
-	aux_w[layer].assign(tf.add(weights[layer], tf.multiply(alpha_tf,p_tf[layer])))
+	aux_w_placeholder[layer] = tf.placeholder(dtype="float",
+										shape=weights[layer].get_shape())
+aux_w_init = {}
+for layer, _ in weights.items():
+	aux_w_init[layer] = aux_w[layer].assign(aux_w_placeholder)
 
 aux_output = model(x,aux_w)
 aux_loss = tf.reduce_mean(
@@ -550,17 +555,19 @@ with tf.Session() as sess:
 		############## WOLFE CONDITIONS ########################################
 		########################################################################
 		alpha_step_vec = np.linspace(1,0,20,dtype='float')
-		c1 = 1E-7
+		c1 = 1E-4
 		c2 = 0.9
 		for alpha_step in alpha_step_vec:
-			feed_dict.update({alpha_tf: alpha_step})
-			for layer, _ in weights.items():
-				feed_dict.update({ p_tf[layer]: p_val[layer] })
-			
-			old_f = sess.run(loss, feed_dict=feed_dict)
-			new_f = sess.run(aux_loss, feed_dict=feed_dict)
 			old_w = sess.run(weights)
-			new_w = sess.run(aux_w, feed_dict=feed_dict)
+			new_w = {}
+			for layer, _ in weights.items():
+				new_w[layer] = old_w[layer] + alpha_step * p_val[layer]
+			old_f = sess.run(loss, feed_dict=feed_dict)
+			feed_dict_aux = feed_dict
+			for layer, _ in weights.items():
+				feed_dict_aux.update({aux_w_placeholder[layer]: new_w[layer]})
+			sess.run(aux_w_init, feed_dict=feed_dict_aux)
+			new_f = sess.run(aux_loss)			
 			gradTp = 0
 			
 			for layer, _ in weights.items():
