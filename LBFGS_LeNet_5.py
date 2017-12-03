@@ -380,6 +380,7 @@ def search_direction(mp,old_grad_w):
 			q[layer] = q[layer] - alpha[i] * Y[i][layer]
 
 	r = q	
+	
 	if (mp >=1):
 		sTy = 0
 		yTy = 0
@@ -419,7 +420,7 @@ print('----------------------------------------------')
 ################### TO SAVE TRAINING AND TEST LOSS AND ERROR ##################
 ################### FOR REFERENCE NET #########################################
 # Batch size
-minibatch = 1024
+minibatch = 512
 # Total minibatches
 total_minibatches = 400
 # number of minibatches in data
