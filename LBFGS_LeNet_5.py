@@ -412,7 +412,7 @@ print('----------------------------------------------')
 # Batch size
 minibatch = 512
 # Total minibatches
-total_minibatches = 10000
+total_minibatches = 300
 # number of minibatches in data
 num_minibatches_data = data.train.images.shape[0] // minibatch
 
@@ -523,31 +523,31 @@ with tf.Session() as sess:
 		sess.run(update_w,feed_dict=feed_dict_w)
 
  		############### LOSS AND ACCURACY EVALUATION ##########################
-		if index_minibatch == 0:
+		if k % 10 == 0:
 			train_loss, train_accuracy = \
 					sess.run([loss, accuracy], feed_dict = {x: X_batch, 
 														    y: y_batch} )
-			train_loss_ref[epoch] = train_loss
-			train_error_ref[epoch] = 1 - train_accuracy
+			# train_loss_ref[epoch] = train_loss
+			# train_error_ref[epoch] = 1 - train_accuracy
 
 			val_loss, val_accuracy = \
 			sess.run([loss, accuracy], feed_dict = {x: data.validation.images, 
 													y: data.validation.labels} )
-			val_loss_ref[epoch] = val_loss
-			val_error_ref[epoch] = 1 - val_accuracy
+			# val_loss_ref[epoch] = val_loss
+			# val_error_ref[epoch] = 1 - val_accuracy
 
-			test_loss, test_accuracy = \
-			sess.run([loss, accuracy], feed_dict = {x: data.test.images, 
-													y: data.test.labels} )
-			test_loss_ref[epoch] = test_loss
-			test_error_ref[epoch] = 1 - test_accuracy
+			# test_loss, test_accuracy = \
+			# sess.run([loss, accuracy], feed_dict = {x: data.test.images, 
+			# 										y: data.test.labels} )
+			# test_loss_ref[epoch] = test_loss
+			# test_error_ref[epoch] = 1 - test_accuracy
 
 			print('step: {}, train loss: {}, train acuracy: {}' \
 				.format(epoch, train_loss, train_accuracy) )
 			print('step: {}, val loss: {}, val acuracy: {}' \
 				.format(epoch, val_loss, val_accuracy) )
-			print('step: {}, test loss: {}, test acuracy: {}' \
-				.format(epoch, test_loss, test_accuracy) )
+			# print('step: {}, test loss: {}, test acuracy: {}' \
+			# 	.format(epoch, test_loss, test_accuracy) )
 
 		
 # 	save_path = saver.save(sess, model_file_path)
