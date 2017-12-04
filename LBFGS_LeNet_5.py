@@ -613,6 +613,12 @@ with tf.Session() as sess:
 		else:
 			dequeue()
 			enqueue(m-1,new_s_val,new_y_val)
+		
+		norm_grad = 0
+		for layer, _ in weights.items():
+			norm_grad = norm_grad + norm.LA(old_grad_w[layer])
+		if norm_grad < 1E-5:
+			break
 		########################################################################
 		############## UPDATE Weights ##########################################
 		########################################################################		
@@ -621,7 +627,7 @@ with tf.Session() as sess:
 			feed_dict_w.update({update_w_placeholder[layer]: new_w[layer]})
 		sess.run(update_w,feed_dict=feed_dict_w)
 
- 		############### LOSS AND ACCURACY EVALUATION ##########################
+		 		############### LOSS AND ACCURACY EVALUATION ##########################
 		if k % 1 == 0:
 			train_loss, train_accuracy = \
 					sess.run([loss, accuracy], feed_dict = {x: X_batch, 
