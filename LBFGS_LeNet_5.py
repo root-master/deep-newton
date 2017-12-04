@@ -20,10 +20,10 @@ import argparse
 parser = argparse.ArgumentParser()
 
 parser.add_argument(
-        '--storage', '-m', type=int, default=20,
+        '--storage', '-m', default=20,
         help='The Memory Storage')
 parser.add_argument(
-        '--mini_batch', '-batch', type=int, default=512,
+        '--mini_batch', '-batch', default=512,
         help='minibatch size')
 parser.add_argument(
         '--whole_gradient', action='store_true',default=False,
