@@ -8,15 +8,28 @@ data = input_MNIST_data.read_data_sets("./data/", one_hot=True)
 
 import numpy as np
 import sys
-import dill
 import collections
 
 import pickle
-
 import pandas as pd
 
 from sklearn.cluster import KMeans
 from numpy import linalg as LA
+
+import argparse
+parser = argparse.ArgumentParser()
+
+parser.add_argument(
+        '--storage', '-m', type=int, default=20,
+        help='The Memory Storage')
+parser.add_argument(
+        '--mini_batch', '-batch', type=int, default=512,
+        help='minibatch size')
+parser.add_argument(
+        '--whole_gradient', action='store_true',default=False,
+        help='Compute the gradient using all data')
+args = parser.parse_args()
+
 
 print('----------------------------------------------')
 print('architecture: LeNet-5 --- Data Set: MNIST')
@@ -30,7 +43,11 @@ n_classes = data.train.labels.shape[1]  # here MNIST (0-9 digits)
 ########################## HYPER PARAMETER FOR LBFGS ##########################
 ###############################################################################
 # memory limit
-m = 20
+m = int(args.storage)
+# minibatch size
+minibatch = int(args.mini_batch)
+# use entire data to compute gradient
+use_whole_data_for_gradient = args.whole_gradient
 
 # number of weights and bias in each layer
 n_W = {}
@@ -432,8 +449,6 @@ print('TRAINGING REFERENCE NET for LeNet-5')
 print('----------------------------------------------')
 ################### TO SAVE TRAINING AND TEST LOSS AND ERROR ##################
 ################### FOR REFERENCE NET #########################################
-# Batch size
-minibatch = 512
 # Total minibatches
 total_minibatches = 4000
 # number of minibatches in data
@@ -447,6 +462,11 @@ val_loss_ref = np.zeros(num_epoch_ref+1)
 val_error_ref = np.zeros(num_epoch_ref+1)
 test_loss_ref = np.zeros(num_epoch_ref+1)
 test_error_ref = np.zeros(num_epoch_ref+1)
+
+train_loss_steps = np.zeros(total_minibatches)
+train_accuracy_steps = np.zeros(total_minibatches)
+test_loss_steps = np.zeros(total_minibatches)
+test_accuracy_steps = np.zeros(total_minibatches)
 
 ################### TO SAVE MODEL ##################
 # model_file_name = 'reference_model_lenet_5.ckpt'
@@ -628,64 +648,30 @@ with tf.Session() as sess:
 			feed_dict_w.update({update_w_placeholder[layer]: new_w[layer]})
 		sess.run(update_w,feed_dict=feed_dict_w)
 
-		 		############### LOSS AND ACCURACY EVALUATION ##########################
-		if k % 1 == 0:
-			train_loss, train_accuracy = \
-					sess.run([loss, accuracy], feed_dict = {x: X_batch, 
-														    y: y_batch} )
-			# train_loss_ref[epoch] = train_loss
-			# train_error_ref[epoch] = 1 - train_accuracy
+		############### LOSS AND ACCURACY EVALUATION ##########################
+		train_loss, train_accuracy = \
+				sess.run([loss, accuracy], feed_dict = {x: X_batch, 
+													    y: y_batch} )
+		train_loss_steps[k] = train_loss
+		train_accuracy_steps[k] = train_accuracy
 
-			val_loss, val_accuracy = \
-			sess.run([loss, accuracy], feed_dict = {x: data.validation.images, 
-													y: data.validation.labels} )
-			# val_loss_ref[epoch] = val_loss
-			# val_error_ref[epoch] = 1 - val_accuracy
-
-			# test_loss, test_accuracy = \
-			# sess.run([loss, accuracy], feed_dict = {x: data.test.images, 
-			# 										y: data.test.labels} )
-			# test_loss_ref[epoch] = test_loss
-			# test_error_ref[epoch] = 1 - test_accuracy
-
-			print('step: {}, train loss: {}, train acuracy: {}' \
-				.format(epoch, train_loss, train_accuracy) )
-			print('step: {}, val loss: {}, val acuracy: {}' \
-				.format(epoch, val_loss, val_accuracy) )
-			# print('step: {}, test loss: {}, test acuracy: {}' \
-			# 	.format(epoch, test_loss, test_accuracy) )
-
+		val_loss, val_accuracy = \
+		sess.run([loss, accuracy], feed_dict = {x: data.validation.images, 
+												y: data.validation.labels} )
 		
-# 	save_path = saver.save(sess, model_file_path)
-# 	# reference weight and bias
-# 	w_bar = sess.run(weights)
-# 	bias_bar = sess.run(biases)
+		test_loss_steps[k] = val_loss
+		test_accuracy_steps[k] = val_accuracy
 
+		print('step: {}, train loss: {}, train acuracy: {}' \
+			.format(k, train_loss, train_accuracy) )
+		print('step: {}, val loss: {}, val acuracy: {}' \
+			.format(k, val_loss, val_accuracy) )
 
-# df_ref = pd.DataFrame({	'train_loss_ref' : train_loss_ref,
-# 						'train_error_ref': train_error_ref,
-# 						'val_loss_ref': val_loss_ref,
-# 						'val_error_ref': val_error_ref,
-# 						'test_loss_ref': test_loss_ref,
-# 						'test_error_ref': test_error_ref})
+# save the results
+result_path = './results_LBFGS' + '_m_' + str(m) + '_minibatch_' + str(minibatch)
+with open(result_path,'wb') as f:
+	pickle.dump(train_loss_steps,f)
+	pickle.dump(train_accuracy_steps)
+	pickle.dump(test_loss_steps)
+	pickle.dump(test_accuracy_steps)
 
-
-# file_pickle = './results_lenet_5/df_ref_lenet_5_pickle.pkl'
-# with open(file_pickle,'wb') as f:
-# 	df_ref.to_pickle(f)
-
-# weights_pickle = './results_lenet_5/weights_biases_lenet_5_ref_pickle.pkl'
-
-# with open(weights_pickle,'wb') as f:
-# 	pickle.dump(w_bar,f,protocol=pickle.HIGHEST_PROTOCOL)
-# 	pickle.dump(bias_bar,f,protocol=pickle.HIGHEST_PROTOCOL)
-
-# with tf.Session() as sess:
-#     saver = tf.train.import_meta_graph('/tmp/model.ckpt.meta')
-#     saver.restore(sess, "/tmp/model.ckpt")
-# reference weight and bias
-	# w_bar = sess.run(weights)
-	# bias_bar = sess.run(biases)
-# sTy_np = {}
-# for key, _ in S_val.items():
-# 	sTy_np[key] = 0

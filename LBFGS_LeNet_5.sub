@@ -14,4 +14,12 @@ export LD_LIBRARY_PATH=${CUDA_HOME}/lib64:$LD_LIBRARY_PATH
 
 module load anaconda3
 source activate jacobenv
-python LBFGS_LeNet_5.py
+declare -a m_vec=(5 10 15 20 40)
+declare -a mini_batch_vec=(64 128 256 512 1024)
+for m in ${m_vec[@]}
+do
+	for minibatch in ${mini_batch_vec[@]}
+	do
+		python LBFGS_LeNet_5.py --storage=m --mini_batch=minibatch
+	done
+done
