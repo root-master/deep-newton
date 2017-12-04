@@ -526,7 +526,7 @@ with tf.Session() as sess:
 				yTy = yTy + np.dot( Y[str(mp-1)][layer].flatten(),
 									Y[str(mp-1)][layer].flatten())
 			gamma = sTy / yTy
-			gamma = np.max((gamma,0.2))
+			gamma = np.max((gamma,0.1))
 			for layer,_ in weights.items():
 				r[layer] = gamma * q[layer]
 
@@ -557,7 +557,7 @@ with tf.Session() as sess:
 		############## FINDING ALPHA TO SATISFY ################################
 		############## WOLFE CONDITIONS ########################################
 		########################################################################
-		alpha_step_vec = np.linspace(1.0,0.2,20,dtype='float')
+		alpha_step_vec = np.linspace(1.0,0.1,20,dtype='float')
 		c1 = 1E-4
 		c2 = 0.9
 		old_w = sess.run(weights)
