@@ -616,7 +616,7 @@ with tf.Session() as sess:
 		
 		norm_grad = 0
 		for layer, _ in weights.items():
-			norm_grad = norm_grad + norm.LA(old_grad_w[layer])
+			norm_grad = norm_grad + LA.norm(old_grad_w[layer])
 		if norm_grad < 1E-5:
 			break
 		########################################################################
