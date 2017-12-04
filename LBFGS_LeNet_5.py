@@ -557,7 +557,7 @@ with tf.Session() as sess:
 		############## FINDING ALPHA TO SATISFY ################################
 		############## WOLFE CONDITIONS ########################################
 		########################################################################
-		alpha_step_vec = np.linspace(1.0,0.0,20,dtype='float')
+		alpha_step_vec = np.linspace(1.0,0.2,20,dtype='float')
 		c1 = 1E-4
 		c2 = 0.9
 		old_w = sess.run(weights)
