@@ -671,7 +671,7 @@ with tf.Session() as sess:
 result_path = './results_LBFGS' + '_m_' + str(m) + '_minibatch_' + str(minibatch)
 with open(result_path,'wb') as f:
 	pickle.dump(train_loss_steps,f)
-	pickle.dump(train_accuracy_steps)
-	pickle.dump(test_loss_steps)
-	pickle.dump(test_accuracy_steps)
+	pickle.dump(train_accuracy_steps,f)
+	pickle.dump(test_loss_steps,f)
+	pickle.dump(test_accuracy_steps,f)
 
