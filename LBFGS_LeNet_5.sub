@@ -20,6 +20,6 @@ for m in ${m_vec[@]}
 do
 	for minibatch in ${mini_batch_vec[@]}
 	do
-		python LBFGS_LeNet_5.py --storage=m --mini_batch=minibatch
+		python LBFGS_LeNet_5.py -m=$m -batch=$minibatch
 	done
 done
