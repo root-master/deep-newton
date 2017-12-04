@@ -30,7 +30,7 @@ n_classes = data.train.labels.shape[1]  # here MNIST (0-9 digits)
 ########################## HYPER PARAMETER FOR LBFGS ##########################
 ###############################################################################
 # memory limit
-m = 5
+m = 20
 
 # number of weights and bias in each layer
 n_W = {}
@@ -526,6 +526,7 @@ with tf.Session() as sess:
 				yTy = yTy + np.dot( Y[str(mp-1)][layer].flatten(),
 									Y[str(mp-1)][layer].flatten())
 			gamma = sTy / yTy
+			gamma = np.max((gamma,0.2))
 			for layer,_ in weights.items():
 				r[layer] = gamma * q[layer]
 
@@ -556,7 +557,7 @@ with tf.Session() as sess:
 		############## FINDING ALPHA TO SATISFY ################################
 		############## WOLFE CONDITIONS ########################################
 		########################################################################
-		alpha_step_vec = np.linspace(1.0,0.5,20,dtype='float')
+		alpha_step_vec = np.linspace(1.0,0.0,20,dtype='float')
 		c1 = 1E-4
 		c2 = 0.9
 		old_w = sess.run(weights)
