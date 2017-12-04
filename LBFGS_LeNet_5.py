@@ -30,7 +30,7 @@ n_classes = data.train.labels.shape[1]  # here MNIST (0-9 digits)
 ########################## HYPER PARAMETER FOR LBFGS ##########################
 ###############################################################################
 # memory limit
-m = 20
+m = 10
 
 # number of weights and bias in each layer
 n_W = {}
@@ -433,7 +433,7 @@ print('----------------------------------------------')
 ################### TO SAVE TRAINING AND TEST LOSS AND ERROR ##################
 ################### FOR REFERENCE NET #########################################
 # Batch size
-minibatch = 512
+minibatch = 1024
 # Total minibatches
 total_minibatches = 4000
 # number of minibatches in data
@@ -556,11 +556,11 @@ with tf.Session() as sess:
 		############## FINDING ALPHA TO SATISFY ################################
 		############## WOLFE CONDITIONS ########################################
 		########################################################################
-		alpha_step_vec = np.linspace(1.0,0.2,20,dtype='float')
-		c1 = 1E-8
+		alpha_step_vec = np.linspace(1.0,0.5,20,dtype='float')
+		c1 = 1E-4
 		c2 = 0.9
+		old_w = sess.run(weights)
 		for alpha_step in alpha_step_vec:
-			old_w = sess.run(weights)
 			new_w = {}
 			for layer, _ in weights.items():
 				new_w[layer] = old_w[layer] + alpha_step * p_val[layer]
