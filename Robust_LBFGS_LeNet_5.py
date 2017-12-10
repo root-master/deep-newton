@@ -464,7 +464,7 @@ with tf.Session() as sess:
 		# 	gw[layer] = gw[layer] * 1 / num_minibatches_data
 
 		if k == 0:
-			old_grad_w = compute_whole_gradient(sess,grad_tf,feed_dict)
+			old_grad_w = compute_whole_gradient(sess,grad_w,feed_dict)
 		else:
 			old_grad_w = new_grad_w
 		########################################################################
