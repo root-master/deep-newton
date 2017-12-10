@@ -427,6 +427,7 @@ with tf.Session() as sess:
 	new_grad_w = {}
 	old_w = {}
 	new_w = {}
+	feed_dict = {}
 	X_train, y_train = shuffle_data(data)
 	for k in range(total_steps):				
 		# compute the subsampled gradient for minibatch of data
