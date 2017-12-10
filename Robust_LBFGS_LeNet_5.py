@@ -132,42 +132,42 @@ y = tf.placeholder("float", [None, n_classes])
 weights = {
     # 5 x 5 convolution, 1 input image, 20 outputs
     'w_conv1': tf.get_variable('w_conv1', shape=[F1, F1, D1, K1],
-           			initializer=tf.random_normal_initializer(stddev = 0.05)),
+           			initializer=tf.random_normal_initializer(stddev = 0.001)),
            			#initializer=tf.contrib.layers.xavier_initializer()),
            			#initializer=tf.zeros_initializer()),
     # 'conv1': tf.Variable(tf.random_normal([F1, F1, D1, K1])),
     # 5x5 conv, 20 inputs, 50 outputs 
     #'conv2': tf.Variable(tf.random_normal([F3, F3, D3, K3])),
     'w_conv2': tf.get_variable('w_conv2', shape=[F3, F3, D3, K3],
-           			initializer=tf.random_normal_initializer(stddev = 0.05)),
+           			initializer=tf.random_normal_initializer(stddev = 0.001)),
            			#initializer=tf.contrib.layers.xavier_initializer()),
            			#initializer=tf.zeros_initializer()),
     # fully connected, 800 inputs, 500 outputs
     #'fc': tf.Variable(tf.random_normal([n_in_fc, n_hidden])),
     'w_fc': tf.get_variable('w_fc', shape=[n_in_fc, n_hidden],
-           			initializer=tf.random_normal_initializer(stddev = 0.05)),
+           			initializer=tf.random_normal_initializer(stddev = 0.001)),
            			#initializer=tf.contrib.layers.xavier_initializer()),
            			#initializer=tf.zeros_initializer()),
     # 500 inputs, 10 outputs (class prediction)
     #'out': tf.Variable(tf.random_normal([n_hidden, n_classes]))
     'w_out': tf.get_variable('w_out', shape=[n_hidden, n_classes],
-           			initializer=tf.random_normal_initializer(stddev = 0.05)),
+           			initializer=tf.random_normal_initializer(stddev = 0.001)),
            			#initializer=tf.contrib.layers.xavier_initializer()),
            			#initializer=tf.zeros_initializer()),
     'b_conv1': tf.get_variable('b_conv1', shape=[K1],
-           			initializer=tf.random_normal_initializer(stddev = 0.05)),
+           			initializer=tf.random_normal_initializer(stddev = 0.001)),
            			 #initializer=tf.zeros_initializer()),
            			#initializer=tf.contrib.layers.xavier_initializer()),
     'b_conv2': tf.get_variable('b_conv2', shape=[K3],
-           			initializer=tf.random_normal_initializer(stddev = 0.05)),
+           			initializer=tf.random_normal_initializer(stddev = 0.001)),
            			#initializer=tf.zeros_initializer()),
            			#initializer=tf.contrib.layers.xavier_initializer()),
     'b_fc': tf.get_variable('b_fc', shape=[n_hidden],
-           			initializer=tf.random_normal_initializer(stddev = 0.05)),
+           			initializer=tf.random_normal_initializer(stddev = 0.001)),
            			#initializer=tf.zeros_initializer()),
            			#initializer=tf.contrib.layers.xavier_initializer()),
     'b_out': tf.get_variable('b_out', shape=[n_classes],
-           			initializer=tf.random_normal_initializer(stddev = 0.05))
+           			initializer=tf.random_normal_initializer(stddev = 0.001))
            			#initializer=tf.zeros_initializer()) 
            			#initializer=tf.contrib.layers.xavier_initializer())
 }
