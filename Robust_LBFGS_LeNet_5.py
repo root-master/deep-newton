@@ -316,6 +316,7 @@ model_file_path = './model/' + model_file_name
 ############################## L-BFGS #########################################
 def compute_whole_gradient(sess,grad_tf,feed_dict):
 	gw = {}
+	X_train, y_train = shuffle_data(data)
 	for j in range(num_minibatches_data):
 		index_minibatch = j % num_minibatches_data
 		# mini batch 
@@ -369,7 +370,6 @@ with tf.Session() as sess:
 	old_w = {}
 	new_w = {}
 	feed_dict = {}
-	X_train, y_train = shuffle_data(data)
 	for k in range(total_steps):				
 		old_grad_w = compute_whole_gradient(sess,grad_w,feed_dict)
 		
@@ -443,7 +443,7 @@ with tf.Session() as sess:
 		############## FINDING ALPHA TO SATISFY ################################
 		############## WOLFE CONDITIONS ########################################
 		########################################################################
-		alpha_step_vec = np.linspace(1.0,0.5,5,dtype='float')
+		alpha_step_vec = np.linspace(1.0,0.25,5,dtype='float')
 		c1 = 1E-4
 		c2 = 0.9
 		old_w = sess.run(weights)
@@ -504,8 +504,8 @@ with tf.Session() as sess:
 		norm_grad = 0
 		for layer, _ in weights.items():
 			norm_grad = norm_grad + LA.norm(old_grad_w[layer])
-		# if norm_grad < 1E-5:
-		# 	break
+		if norm_grad < 1E-5:
+			break
 		########################################################################
 		############## UPDATE Weights ##########################################
 		########################################################################		
