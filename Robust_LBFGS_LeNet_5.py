@@ -548,7 +548,7 @@ with tf.Session() as sess:
 			.format(k, val_loss, val_accuracy) )
 
 # save the results
-result_path = './results_robust_LBFGS' + '_m_' + str(m)
+result_path = './results_robust_LBFGS/' + 'results_m_' + str(m)
 np.savez(result_path,train_loss_steps=train_loss_steps,
 					train_accuracy_steps=train_accuracy_steps,
 					test_loss_steps = test_loss_steps,
