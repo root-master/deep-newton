@@ -23,7 +23,7 @@ parser.add_argument(
         '--storage', '-m', default=20,
         help='The Memory Storage')
 parser.add_argument(
-        '--mini_batch', '-batch', default=512,
+        '--mini_batch', '-batch', default=1024,
         help='minibatch size')
 parser.add_argument(
         '--whole_gradient', action='store_true',default=False,
