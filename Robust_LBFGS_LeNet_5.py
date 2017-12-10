@@ -20,7 +20,7 @@ import argparse
 parser = argparse.ArgumentParser()
 
 parser.add_argument(
-        '--storage', '-m', default=20,
+        '--storage', '-m', default=4,
         help='The Memory Storage')
 parser.add_argument(
         '--mini_batch', '-batch', default=1024,
@@ -286,65 +286,6 @@ for layer, _ in weights.items():
 for layer, _ in weights.items():
 	update_w[layer] = weights[layer].assign(update_w_placeholder[layer])
 
-def search_direction(mp,old_grad_w):	
-	q = old_grad_w
-	yTs = {}
-	rho = {}
-	sTq = {}
-	alpha = {}
-	yTr = {}
-	eps = np.finfo(float).eps
-	for k in range(mp):
-		i = str(k)
-		yTs[i] = 0
-		rho[i] = 0
-		sTq[i] = 0
-		alpha[i] = 0
-		yTr[i] = 0
-
-	for k in range(mp-1,-1,-1):
-		i = str(k)
-		for layer, _ in weights.items():
-			yTs[i] = yTs[i] + np.dot(S[i][layer].flatten(),
-									 Y[i][layer].flatten())		
-		
-		rho[i] = 1 / ( yTs[i] + eps) 
-
-		for layer, _ in weights.items():
-			sTq[i] = sTq[i] + np.dot(S[i][layer].flatten(),q[layer].flatten())
-		alpha[i] = rho[i] * sTq[i]
-		
-		for layer, _ in weights.items():
-			q[layer] = q[layer] - alpha[i] * Y[i][layer]
-
-	r = q	
-	
-	if (mp >=1):
-		sTy = 0
-		yTy = 0
-		for layer, _ in weights.items(): 
-			sTy = sTy + np.dot( S[str(mp-1)][layer].flatten(),
-								Y[str(mp-1)][layer].flatten())
-			yTy = yTy + np.dot( Y[str(mp-1)][layer].flatten(),
-								Y[str(mp-1)][layer].flatten())
-		gamma = sTy / yTy
-		for layer,_ in weights.items():
-			r[layer] = gamma * q[layer]
-
-	for k in range(mp):
-		i = str(k)
-		for layer, _ in weights.items():
-			yTr[i] = yTr[i] + np.dot(Y[i][layer].flatten(), r[layer].flatten())
-
-		beta = rho[i] * yTr[i]
-
-		for layer, _ in weights.items():
-			r[layer] = r[layer] + S[i][layer] * ( alpha[i] - beta )
-	p = {}
-	for layer, _ in weights.items():
-		p[layer] = -1 * r[layer]
-	return p		
-
 ################################################################################
 ################################################################################
 saver = tf.train.Saver()
@@ -430,40 +371,6 @@ with tf.Session() as sess:
 	feed_dict = {}
 	X_train, y_train = shuffle_data(data)
 	for k in range(total_steps):				
-		# compute the subsampled gradient for minibatch of data
-		# feed_dict = {}
-		# old_grad_w = {}
-		# old_grad_w_list = sess.run(grad_w, feed_dict=feed_dict)	
-		# for layer, _ in weights.items():
-		# 	old_grad_w[layer] = old_grad_w_list[layer][0]
-
-		########################################################################
-		################# compute the whole gradient ###########################
-		########################################################################
-		# old_grad_w = compute_whole_gradient(sess,grad_w,feed_dict)
-		# feed_dict = {}
-		# for j in range(num_minibatches_data):
-		# 	index_minibatch = j % num_minibatches_data
-		# 	# mini batch 
-		# 	start_index = index_minibatch     * minibatch
-		# 	end_index   = (index_minibatch+1) * minibatch
-		# 	X_batch = X_train[start_index:end_index]
-		# 	y_batch = y_train[start_index:end_index]
-		# 	feed_dict.update({	x: X_batch,
-		# 						y: y_batch})
-
-		# 	gw_list = sess.run(grad_w, feed_dict=feed_dict)
-		# 	if j == 0:		
-		# 		gw = {}
-		# 		for layer, _ in weights.items():
-		# 			gw[layer] = gw_list[layer][0]
-		# 	else:
-		# 		for layer, _ in weights.items():
-		# 			gw[layer] = gw[layer] + gw_list[layer][0]
-
-		# for layer, _ in weights.items():
-		# 	gw[layer] = gw[layer] * 1 / num_minibatches_data
-
 		if k == 0:
 			old_grad_w = compute_whole_gradient(sess,grad_w,feed_dict)
 		else:
@@ -578,43 +485,7 @@ with tf.Session() as sess:
 				Wolfe_cond_1 = True
 			else:
 				Wolfe_cond_1 = False
-
-			####################################################################
-			################# compute the whole gradient for k+1 ###############
-			####################################################################
-			# old_grad_w = compute_whole_gradient(sess,grad_w,feed_dict)
-			# for j in range(num_minibatches_data):
-			# 	index_minibatch = j % num_minibatches_data
-			# 	# mini batch 
-			# 	start_index = index_minibatch     * minibatch
-			# 	end_index   = (index_minibatch+1) * minibatch
-			# 	X_batch = X_train[start_index:end_index]
-			# 	y_batch = y_train[start_index:end_index]
-			# 	feed_dict.update({	x: X_batch,
-			# 						y: y_batch})
-
-			# 	gw_list = sess.run(aux_grad_w, feed_dict=feed_dict)
-			# 	if j == 0:		
-			# 		gw = {}
-			# 		for layer, _ in weights.items():
-			# 			gw[layer] = gw_list[layer][0]
-			# 	else:
-			# 		for layer, _ in weights.items():
-			# 			gw[layer] = gw[layer] + gw_list[layer][0]
-
-			# for layer, _ in weights.items():
-			# 	gw[layer] = gw[layer] * 1 / num_minibatches_data
-
 			new_grad_w = compute_whole_gradient(sess,aux_grad_w,feed_dict)
-			########################################################################
-			################# END compute the whole gradient #######################
-			########################################################################
-
-			# new_grad_w_list= sess.run(aux_grad_w,feed_dict=feed_dict)
-			# new_grad_w = {}
-			# for layer, _ in weights.items():
-			# 	new_grad_w[layer] = new_grad_w_list[layer][0]
-
 			new_grad_wTp = 0
 			for layer, _ in weights.items():
 				new_grad_wTp = new_grad_wTp + np.dot(new_grad_w[layer].flatten(),
