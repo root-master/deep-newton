@@ -425,6 +425,8 @@ with tf.Session() as sess:
 	new_f = 0
 	old_grad_w = {}
 	new_grad_w = {}
+	old_w = {}
+	new_w = {}
 	X_train, y_train = shuffle_data(data)
 	for k in range(total_steps):				
 		# compute the subsampled gradient for minibatch of data
@@ -542,7 +544,11 @@ with tf.Session() as sess:
 		alpha_step_vec = np.linspace(1.0,0.0,20,dtype='float')
 		c1 = 1E-4
 		c2 = 0.9
-		old_w = sess.run(weights)
+		if k ==0:
+			old_w = sess.run(weights)
+		else:
+			old_w = new_w
+
 		feed_dict = {}
 		if k == 0:
 			old_f = compute_whole_tensor(sess,loss,feed_dict)
@@ -648,10 +654,15 @@ with tf.Session() as sess:
 		sess.run(update_w,feed_dict=feed_dict_w)
 
 		############### LOSS AND ACCURACY EVALUATION ##########################
-		train_loss, train_accuracy = \
-				sess.run([loss, accuracy], feed_dict = {x: X_batch, 
-													    y: y_batch} )
-		train_loss_steps[k] = train_loss
+		# X_batch = X_train[0:minibatch]
+		# y_batch = y_train[0:minibatch]
+
+		# train_loss, train_accuracy = \
+		# 		sess.run([loss, accuracy], feed_dict = {x: X_batch, 
+		# 											    y: y_batch} )
+		
+		train_accuracy = compute_whole_tensor(sess,accuracy,feed_dict={})
+		train_loss_steps[k] = new_f
 		train_accuracy_steps[k] = train_accuracy
 
 		val_loss, val_accuracy = \
