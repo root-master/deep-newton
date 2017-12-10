@@ -315,6 +315,7 @@ model_file_name = 'robust_LBFGS_model_lenet_5.ckpt'
 model_file_path = './model/' + model_file_name 
 ############################## L-BFGS #########################################
 def compute_whole_gradient(sess,grad_tf,feed_dict):
+	gw = {}
 	for j in range(num_minibatches_data):
 		index_minibatch = j % num_minibatches_data
 		# mini batch 
@@ -327,7 +328,6 @@ def compute_whole_gradient(sess,grad_tf,feed_dict):
 
 		gw_list = sess.run(grad_tf, feed_dict=feed_dict)
 		if j == 0:		
-			gw = {}
 			for layer, _ in weights.items():
 				gw[layer] = gw_list[layer][0]
 		else:
@@ -371,14 +371,7 @@ with tf.Session() as sess:
 	feed_dict = {}
 	X_train, y_train = shuffle_data(data)
 	for k in range(total_steps):				
-		if k == 0:
-			old_grad_w = compute_whole_gradient(sess,grad_w,feed_dict)
-		else:
-			old_grad_w = new_grad_w
-		########################################################################
-		################# END compute the whole gradient #######################
-		########################################################################
-
+		old_grad_w = compute_whole_gradient(sess,grad_w,feed_dict)
 		if k < m:
 			mp = k
 		else:
@@ -428,7 +421,7 @@ with tf.Session() as sess:
 				yTy = yTy + np.dot( Y[str(mp-1)][layer].flatten(),
 									Y[str(mp-1)][layer].flatten())
 			gamma = sTy / yTy
-			gamma = np.max((gamma,0.2))
+			gamma = np.max((gamma,0.1))
 			for layer,_ in weights.items():
 				r[layer] = gamma * q[layer]
 
@@ -449,7 +442,7 @@ with tf.Session() as sess:
 		############## FINDING ALPHA TO SATISFY ################################
 		############## WOLFE CONDITIONS ########################################
 		########################################################################
-		alpha_step_vec = np.linspace(1.0,0.2,5,dtype='float')
+		alpha_step_vec = np.linspace(1.0,0.1,5,dtype='float')
 		c1 = 1E-4
 		c2 = 0.9
 		old_w = sess.run(weights)
