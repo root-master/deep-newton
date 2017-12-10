@@ -358,7 +358,7 @@ print('----------------------------------------------')
 ################### TO SAVE TRAINING AND TEST LOSS AND ERROR ##################
 ################### FOR REFERENCE NET #########################################
 # Total minibatches
-total_steps = 1
+total_steps = 100
 # total_minibatches = 400
 # number of minibatches in data
 num_minibatches_data = data.train.images.shape[0] // minibatch
