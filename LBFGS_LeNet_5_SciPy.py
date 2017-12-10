@@ -215,7 +215,7 @@ loss = tf.reduce_mean(
 	tf.nn.softmax_cross_entropy_with_logits(labels = y, logits = output))
 correct_prediction = tf.equal(tf.argmax(output, 1), tf.argmax(y, 1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
-optimizer = ScipyOptimizerInterface(loss, options={'maxiter': 100})
+optimizer = tf.contrib.opt.ScipyOptimizerInterface(loss, options={'maxiter': 100})
 train = optimizer.minimize()
 
 print('----------------------------------------------')
