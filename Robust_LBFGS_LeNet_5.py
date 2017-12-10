@@ -338,6 +338,32 @@ def compute_whole_gradient(sess,grad_tf,feed_dict,X_train,y_train):
 		gw[layer] = gw[layer] * 1 / num_minibatches_data	
 	return gw
 
+def compute_multibatch_gradient(sess,grad_tf,feed_dict,X_train,y_train):
+	gw = {}
+	num_minibatches_here = X_train.shape[0] // minibatch
+	for j in range(num_minibatches_here):
+		index_minibatch = j % num_minibatches_here
+		# mini batch 
+		start_index = index_minibatch     * minibatch
+		end_index   = (index_minibatch+1) * minibatch
+		X_batch = X_train[start_index:end_index]
+		y_batch = y_train[start_index:end_index]
+		feed_dict.update({	x: X_batch,
+							y: y_batch})
+
+		gw_list = sess.run(grad_tf, feed_dict=feed_dict)
+		if j == 0:		
+			for layer, _ in weights.items():
+				gw[layer] = gw_list[layer][0]
+		else:
+			for layer, _ in weights.items():
+				gw[layer] = gw[layer] + gw_list[layer][0]
+
+	for layer, _ in weights.items():
+		gw[layer] = gw[layer] * 1 / num_minibatches_data	
+	return gw
+
+
 def compute_whole_tensor(sess,tensor_tf,feed_dict,X_train,y_train):
 	total = 0
 	for j in range(num_minibatches_data):
@@ -356,6 +382,24 @@ def compute_whole_tensor(sess,tensor_tf,feed_dict,X_train,y_train):
 	total = total * 1 / num_minibatches_data	
 	return total
 
+def compute_multibatch_tensor(sess,tensor_tf,feed_dict,X_train,y_train):
+	total = 0
+	num_minibatches_here = X_train.shape[0] // minibatch
+	for j in range(num_minibatches_here):
+		index_minibatch = j % num_minibatches_here
+		# mini batch 
+		start_index = index_minibatch     * minibatch
+		end_index   = (index_minibatch+1) * minibatch
+		X_batch = X_train[start_index:end_index]
+		y_batch = y_train[start_index:end_index]
+		feed_dict.update({	x: X_batch,
+							y: y_batch})
+
+		value = sess.run(tensor_tf, feed_dict=feed_dict)
+		total = total + value
+
+	total = total * 1 / num_minibatches_data	
+	return total
 
 
 with tf.Session() as sess:
@@ -371,8 +415,20 @@ with tf.Session() as sess:
 	feed_dict = {}
 	X_train, y_train = shuffle_data(data)
 	for k in range(total_steps):						
-		old_grad_w = compute_whole_gradient(sess,grad_w,feed_dict,X_train, y_train)
-		
+		if k % 2 == 0:
+			start_index = 0
+			end_index = 2 * X_train.shape[0] // 3
+			X_train_multi = X_train[start_index:end_index]
+			y_train_multi = y_train[start_index:end_index]
+		else:
+			start_index = X_train.shape[0] // 3
+			end_index = X_train.shape[0]
+			X_train_multi = X_train[start_index:]
+			y_train_multi = y_train[start_index:]
+
+		#old_grad_w = compute_whole_gradient(sess,grad_w,feed_dict,X_train, y_train)
+		old_grad_w = compute_multibatch_gradient(sess,grad_w,feed_dict,
+												X_train_multi, y_train_multi)
 		if k < m:
 			mp = k
 		else:
@@ -474,7 +530,9 @@ with tf.Session() as sess:
 				Wolfe_cond_1 = True
 			else:
 				Wolfe_cond_1 = False
-			new_grad_w = compute_whole_gradient(sess,aux_grad_w,feed_dict,X_train, y_train)
+			#new_grad_w = compute_whole_gradient(sess,aux_grad_w,feed_dict,X_train, y_train)
+			new_grad_w = compute_multibatch_gradient(sess,aux_grad_w,feed_dict,
+												X_train_multi, y_train_multi)
 			new_grad_wTp = 0
 			for layer, _ in weights.items():
 				new_grad_wTp = new_grad_wTp + np.dot(new_grad_w[layer].flatten(),
