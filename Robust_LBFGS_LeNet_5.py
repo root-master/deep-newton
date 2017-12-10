@@ -369,8 +369,8 @@ with tf.Session() as sess:
 	old_w = {}
 	new_w = {}
 	feed_dict = {}
-	for k in range(total_steps):
-		X_train, y_train = shuffle_data(data)				
+	X_train, y_train = shuffle_data(data)
+	for k in range(total_steps):						
 		old_grad_w = compute_whole_gradient(sess,grad_w,feed_dict,X_train, y_train)
 		
 		if k < m:
