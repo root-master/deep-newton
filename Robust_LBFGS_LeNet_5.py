@@ -364,11 +364,11 @@ total_steps = 1
 num_minibatches_data = data.train.images.shape[0] // minibatch
 
 train_loss_steps = np.zeros(total_steps)
-train_error_steps = np.zeros(total_steps)
+train_accuracy_steps = np.zeros(total_steps)
 val_loss_steps = np.zeros(total_steps)
-val_error_steps = np.zeros(total_steps)
+val_accuracy_steps = np.zeros(total_steps)
 test_loss_steps = np.zeros(total_steps)
-test_error_steps = np.zeros(total_steps)
+test_accuracy_steps = np.zeros(total_steps)
 ################### TO SAVE MODEL ##################
 model_file_name = 'robust_LBFGS_model_lenet_5.ckpt'
 model_file_path = './model/' + model_file_name 
