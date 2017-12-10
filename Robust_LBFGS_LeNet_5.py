@@ -314,9 +314,8 @@ test_accuracy_steps = np.zeros(total_steps)
 model_file_name = 'robust_LBFGS_model_lenet_5.ckpt'
 model_file_path = './model/' + model_file_name 
 ############################## L-BFGS #########################################
-def compute_whole_gradient(sess,grad_tf,feed_dict):
+def compute_whole_gradient(sess,grad_tf,feed_dict,X_train,y_train):
 	gw = {}
-	X_train, y_train = shuffle_data(data)
 	for j in range(num_minibatches_data):
 		index_minibatch = j % num_minibatches_data
 		# mini batch 
@@ -339,7 +338,7 @@ def compute_whole_gradient(sess,grad_tf,feed_dict):
 		gw[layer] = gw[layer] * 1 / num_minibatches_data	
 	return gw
 
-def compute_whole_tensor(sess,tensor_tf,feed_dict):
+def compute_whole_tensor(sess,tensor_tf,feed_dict,X_train,y_train):
 	total = 0
 	for j in range(num_minibatches_data):
 		index_minibatch = j % num_minibatches_data
@@ -370,8 +369,9 @@ with tf.Session() as sess:
 	old_w = {}
 	new_w = {}
 	feed_dict = {}
-	for k in range(total_steps):				
-		old_grad_w = compute_whole_gradient(sess,grad_w,feed_dict)
+	for k in range(total_steps):
+		X_train, y_train = shuffle_data(data)				
+		old_grad_w = compute_whole_gradient(sess,grad_w,feed_dict,X_train, y_train)
 		
 		if k < m:
 			mp = k
@@ -450,7 +450,7 @@ with tf.Session() as sess:
 		
 		feed_dict = {}
 		
-		old_f = compute_whole_tensor(sess,loss,feed_dict)
+		old_f = compute_whole_tensor(sess,loss,feed_dict,X_train, y_train)
 		
 		for alpha_step in alpha_step_vec:
 			new_w = {}
@@ -474,7 +474,7 @@ with tf.Session() as sess:
 				Wolfe_cond_1 = True
 			else:
 				Wolfe_cond_1 = False
-			new_grad_w = compute_whole_gradient(sess,aux_grad_w,feed_dict)
+			new_grad_w = compute_whole_gradient(sess,aux_grad_w,feed_dict,X_train, y_train)
 			new_grad_wTp = 0
 			for layer, _ in weights.items():
 				new_grad_wTp = new_grad_wTp + np.dot(new_grad_w[layer].flatten(),
@@ -523,7 +523,7 @@ with tf.Session() as sess:
 		# 											    y: y_batch} )
 		
 		train_loss = new_f
-		train_accuracy = compute_whole_tensor(sess,accuracy,feed_dict={})
+		train_accuracy = compute_whole_tensor(sess,accuracy,feed_dict={},X_train, y_train)
 		train_loss_steps[k] = train_loss
 		train_accuracy_steps[k] = train_accuracy
 
