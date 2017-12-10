@@ -496,7 +496,7 @@ with tf.Session() as sess:
 		else:
 			mp = m
 
-		maxiter = 40
+		maxiter = 20
 		
 		for iteration in range(maxiter):
 			# compute the subsampled gradient for minibatch of data
