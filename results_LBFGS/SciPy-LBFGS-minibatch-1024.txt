@@ -1,0 +1,707 @@
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000002
+  Number of iterations: 66
+  Number of functions evaluations: 72
+step: 2, train loss: 2.0800357560801785e-06, train acuracy: 1.0
+step: 2, val loss: 0.8352440595626831, val acuracy: 0.9440001249313354
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000002
+  Number of iterations: 66
+  Number of functions evaluations: 70
+step: 3, train loss: 2.413454012639704e-06, train acuracy: 1.0
+step: 3, val loss: 0.5771952271461487, val acuracy: 0.954666793346405
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000001
+  Number of iterations: 64
+  Number of functions evaluations: 66
+step: 4, train loss: 1.4906771639289218e-06, train acuracy: 1.0
+step: 4, val loss: 0.5762379765510559, val acuracy: 0.9558334350585938
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000002
+  Number of iterations: 54
+  Number of functions evaluations: 58
+step: 5, train loss: 2.106599595208536e-06, train acuracy: 1.0
+step: 5, val loss: 0.41401368379592896, val acuracy: 0.9616668224334717
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000004
+  Number of iterations: 48
+  Number of functions evaluations: 50
+step: 6, train loss: 3.6662418096966576e-06, train acuracy: 1.0
+step: 6, val loss: 0.4484226703643799, val acuracy: 0.9520000219345093
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000004
+  Number of iterations: 41
+  Number of functions evaluations: 43
+step: 7, train loss: 4.2495885281823575e-06, train acuracy: 1.0
+step: 7, val loss: 0.34760305285453796, val acuracy: 0.9661666750907898
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000003
+  Number of iterations: 31
+  Number of functions evaluations: 34
+step: 8, train loss: 2.970908099086955e-06, train acuracy: 1.0
+step: 8, val loss: 0.3757374882698059, val acuracy: 0.9636667370796204
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000003
+  Number of iterations: 35
+  Number of functions evaluations: 37
+step: 9, train loss: 2.991627752635395e-06, train acuracy: 1.0
+step: 9, val loss: 0.3165750503540039, val acuracy: 0.9673334360122681
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000004
+  Number of iterations: 35
+  Number of functions evaluations: 38
+step: 10, train loss: 3.5786317766905995e-06, train acuracy: 1.0
+step: 10, val loss: 0.35814759135246277, val acuracy: 0.9660000801086426
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000004
+  Number of iterations: 35
+  Number of functions evaluations: 38
+step: 11, train loss: 3.8107771160866832e-06, train acuracy: 1.0
+step: 11, val loss: 0.3289383053779602, val acuracy: 0.9668334126472473
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000004
+  Number of iterations: 28
+  Number of functions evaluations: 30
+step: 12, train loss: 4.338679445936577e-06, train acuracy: 1.0
+step: 12, val loss: 0.281949520111084, val acuracy: 0.9681667685508728
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000005
+  Number of iterations: 36
+  Number of functions evaluations: 39
+step: 13, train loss: 4.607504706655163e-06, train acuracy: 1.0
+step: 13, val loss: 0.2670580744743347, val acuracy: 0.9691667556762695
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000005
+  Number of iterations: 25
+  Number of functions evaluations: 28
+step: 14, train loss: 5.1674273890967015e-06, train acuracy: 1.0
+step: 14, val loss: 0.2396843433380127, val acuracy: 0.971000075340271
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000005
+  Number of iterations: 35
+  Number of functions evaluations: 37
+step: 15, train loss: 4.770666237163823e-06, train acuracy: 1.0
+step: 15, val loss: 0.2636216878890991, val acuracy: 0.9700000286102295
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000006
+  Number of iterations: 25
+  Number of functions evaluations: 28
+step: 16, train loss: 6.239777576411143e-06, train acuracy: 1.0
+step: 16, val loss: 0.23376885056495667, val acuracy: 0.9745001196861267
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000003
+  Number of iterations: 29
+  Number of functions evaluations: 32
+step: 17, train loss: 2.5229642233171035e-06, train acuracy: 1.0
+step: 17, val loss: 0.29091382026672363, val acuracy: 0.9730001091957092
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000008
+  Number of iterations: 28
+  Number of functions evaluations: 32
+step: 18, train loss: 8.302508831548039e-06, train acuracy: 1.0
+step: 18, val loss: 0.2604508101940155, val acuracy: 0.9743333458900452
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000004
+  Number of iterations: 28
+  Number of functions evaluations: 30
+step: 19, train loss: 4.167910446994938e-06, train acuracy: 1.0
+step: 19, val loss: 0.24750986695289612, val acuracy: 0.9753333330154419
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000003
+  Number of iterations: 27
+  Number of functions evaluations: 29
+step: 20, train loss: 3.4208230772492243e-06, train acuracy: 1.0
+step: 20, val loss: 0.24404923617839813, val acuracy: 0.9753333926200867
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000002
+  Number of iterations: 25
+  Number of functions evaluations: 27
+step: 21, train loss: 2.4356702397199115e-06, train acuracy: 1.0
+step: 21, val loss: 0.213412806391716, val acuracy: 0.9771667718887329
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000003
+  Number of iterations: 28
+  Number of functions evaluations: 32
+step: 22, train loss: 2.501665221643634e-06, train acuracy: 1.0
+step: 22, val loss: 0.2403029501438141, val acuracy: 0.9741666913032532
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000004
+  Number of iterations: 23
+  Number of functions evaluations: 25
+step: 23, train loss: 3.614658908190904e-06, train acuracy: 1.0
+step: 23, val loss: 0.24430939555168152, val acuracy: 0.9726667404174805
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000004
+  Number of iterations: 29
+  Number of functions evaluations: 31
+step: 24, train loss: 4.218904450681293e-06, train acuracy: 1.0
+step: 24, val loss: 0.24479793012142181, val acuracy: 0.970833420753479
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000002
+  Number of iterations: 27
+  Number of functions evaluations: 29
+step: 25, train loss: 2.1111377463967074e-06, train acuracy: 1.0
+step: 25, val loss: 0.24615490436553955, val acuracy: 0.9715000987052917
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000003
+  Number of iterations: 26
+  Number of functions evaluations: 28
+step: 26, train loss: 2.5149668090307387e-06, train acuracy: 1.0
+step: 26, val loss: 0.22886265814304352, val acuracy: 0.9723334312438965
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000005
+  Number of iterations: 20
+  Number of functions evaluations: 22
+step: 27, train loss: 5.2118225539743435e-06, train acuracy: 1.0
+step: 27, val loss: 0.21714544296264648, val acuracy: 0.974000096321106
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000002
+  Number of iterations: 23
+  Number of functions evaluations: 25
+step: 28, train loss: 2.3155500912253046e-06, train acuracy: 1.0
+step: 28, val loss: 0.2300749570131302, val acuracy: 0.9768335223197937
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000008
+  Number of iterations: 22
+  Number of functions evaluations: 24
+step: 29, train loss: 8.418812285526656e-06, train acuracy: 1.0
+step: 29, val loss: 0.22697997093200684, val acuracy: 0.9748334288597107
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000005
+  Number of iterations: 23
+  Number of functions evaluations: 26
+step: 30, train loss: 4.520338734437246e-06, train acuracy: 1.0
+step: 30, val loss: 0.2104637771844864, val acuracy: 0.9758333563804626
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000011
+  Number of iterations: 25
+  Number of functions evaluations: 30
+step: 31, train loss: 1.0554308573773596e-05, train acuracy: 1.0
+step: 31, val loss: 0.1713647097349167, val acuracy: 0.9776667356491089
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000004
+  Number of iterations: 22
+  Number of functions evaluations: 25
+step: 32, train loss: 4.230528702464653e-06, train acuracy: 1.0
+step: 32, val loss: 0.18717777729034424, val acuracy: 0.9766667485237122
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000007
+  Number of iterations: 19
+  Number of functions evaluations: 21
+step: 33, train loss: 6.6971147134609055e-06, train acuracy: 1.0
+step: 33, val loss: 0.1775953769683838, val acuracy: 0.9788333773612976
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000005
+  Number of iterations: 20
+  Number of functions evaluations: 23
+step: 34, train loss: 5.435801085695857e-06, train acuracy: 1.0
+step: 34, val loss: 0.18757030367851257, val acuracy: 0.9783334136009216
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000003
+  Number of iterations: 21
+  Number of functions evaluations: 23
+step: 35, train loss: 2.7413789212005213e-06, train acuracy: 1.0
+step: 35, val loss: 0.19032850861549377, val acuracy: 0.9765000939369202
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000010
+  Number of iterations: 18
+  Number of functions evaluations: 20
+step: 36, train loss: 1.0204151294601616e-05, train acuracy: 1.0
+step: 36, val loss: 0.1849236935377121, val acuracy: 0.9771667718887329
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000005
+  Number of iterations: 18
+  Number of functions evaluations: 20
+step: 37, train loss: 4.820272806682624e-06, train acuracy: 1.0
+step: 37, val loss: 0.1743762493133545, val acuracy: 0.9800000786781311
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000006
+  Number of iterations: 15
+  Number of functions evaluations: 17
+step: 38, train loss: 6.1162836573203094e-06, train acuracy: 1.0
+step: 38, val loss: 0.163725346326828, val acuracy: 0.9806666970252991
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000009
+  Number of iterations: 17
+  Number of functions evaluations: 19
+step: 39, train loss: 8.931371667131316e-06, train acuracy: 1.0
+step: 39, val loss: 0.14379563927650452, val acuracy: 0.9804999828338623
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000007
+  Number of iterations: 20
+  Number of functions evaluations: 23
+step: 40, train loss: 6.708427918056259e-06, train acuracy: 1.0
+step: 40, val loss: 0.15360625088214874, val acuracy: 0.9815000295639038
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000011
+  Number of iterations: 18
+  Number of functions evaluations: 22
+step: 41, train loss: 1.0769546861411072e-05, train acuracy: 1.0
+step: 41, val loss: 0.14906127750873566, val acuracy: 0.9815001487731934
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000004
+  Number of iterations: 18
+  Number of functions evaluations: 20
+step: 42, train loss: 3.937453584512696e-06, train acuracy: 1.0
+step: 42, val loss: 0.14329497516155243, val acuracy: 0.9818333387374878
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000003
+  Number of iterations: 18
+  Number of functions evaluations: 20
+step: 43, train loss: 3.0616715775977354e-06, train acuracy: 1.0
+step: 43, val loss: 0.153298020362854, val acuracy: 0.9830000400543213
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000007
+  Number of iterations: 19
+  Number of functions evaluations: 21
+step: 44, train loss: 7.022930731181987e-06, train acuracy: 1.0
+step: 44, val loss: 0.20352855324745178, val acuracy: 0.9770000576972961
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000005
+  Number of iterations: 22
+  Number of functions evaluations: 25
+step: 45, train loss: 4.57421492683352e-06, train acuracy: 1.0
+step: 45, val loss: 0.14562173187732697, val acuracy: 0.9801667332649231
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000003
+  Number of iterations: 20
+  Number of functions evaluations: 22
+step: 46, train loss: 2.9586831260530744e-06, train acuracy: 1.0
+step: 46, val loss: 0.1440674215555191, val acuracy: 0.9818333983421326
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000009
+  Number of iterations: 17
+  Number of functions evaluations: 19
+step: 47, train loss: 8.838227586238645e-06, train acuracy: 1.0
+step: 47, val loss: 0.1319090873003006, val acuracy: 0.9823333621025085
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000003
+  Number of iterations: 18
+  Number of functions evaluations: 20
+step: 48, train loss: 2.766389116004575e-06, train acuracy: 1.0
+step: 48, val loss: 0.14213982224464417, val acuracy: 0.9826667308807373
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000006
+  Number of iterations: 19
+  Number of functions evaluations: 21
+step: 49, train loss: 5.561698344536126e-06, train acuracy: 1.0
+step: 49, val loss: 0.13378554582595825, val acuracy: 0.9830000996589661
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000005
+  Number of iterations: 19
+  Number of functions evaluations: 22
+step: 50, train loss: 5.088226771476911e-06, train acuracy: 1.0
+step: 50, val loss: 0.1392568051815033, val acuracy: 0.9803334474563599
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000007
+  Number of iterations: 18
+  Number of functions evaluations: 20
+step: 51, train loss: 7.273349183378741e-06, train acuracy: 1.0
+step: 51, val loss: 0.13726365566253662, val acuracy: 0.9821667671203613
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000006
+  Number of iterations: 15
+  Number of functions evaluations: 17
+step: 52, train loss: 6.186247446748894e-06, train acuracy: 1.0
+step: 52, val loss: 0.11747285723686218, val acuracy: 0.9845001101493835
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000007
+  Number of iterations: 17
+  Number of functions evaluations: 19
+step: 53, train loss: 7.359186383837368e-06, train acuracy: 1.0
+step: 53, val loss: 0.11132495105266571, val acuracy: 0.9853333830833435
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000003
+  Number of iterations: 17
+  Number of functions evaluations: 19
+step: 54, train loss: 2.8625443064811407e-06, train acuracy: 1.0
+step: 54, val loss: 0.1320924162864685, val acuracy: 0.9825001358985901
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000003
+  Number of iterations: 18
+  Number of functions evaluations: 20
+step: 55, train loss: 3.094913154200185e-06, train acuracy: 1.0
+step: 55, val loss: 0.12542423605918884, val acuracy: 0.9851667284965515
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000004
+  Number of iterations: 20
+  Number of functions evaluations: 22
+step: 56, train loss: 3.988082426076289e-06, train acuracy: 1.0
+step: 56, val loss: 0.13721255958080292, val acuracy: 0.9845000505447388
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000003
+  Number of iterations: 18
+  Number of functions evaluations: 20
+step: 57, train loss: 3.049250381081947e-06, train acuracy: 1.0
+step: 57, val loss: 0.12560240924358368, val acuracy: 0.9831666946411133
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000003
+  Number of iterations: 22
+  Number of functions evaluations: 25
+step: 58, train loss: 3.2713933251216076e-06, train acuracy: 1.0
+step: 58, val loss: 0.14122392237186432, val acuracy: 0.9815000891685486
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000005
+  Number of iterations: 16
+  Number of functions evaluations: 18
+step: 59, train loss: 5.101586339151254e-06, train acuracy: 1.0
+step: 59, val loss: 0.12771722674369812, val acuracy: 0.9843333959579468
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000003
+  Number of iterations: 17
+  Number of functions evaluations: 19
+step: 60, train loss: 3.4940242130687693e-06, train acuracy: 1.0
+step: 60, val loss: 0.13212643563747406, val acuracy: 0.9826667308807373
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000004
+  Number of iterations: 15
+  Number of functions evaluations: 17
+step: 61, train loss: 4.138479198445566e-06, train acuracy: 1.0
+step: 61, val loss: 0.11939585208892822, val acuracy: 0.9851667881011963
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000006
+  Number of iterations: 16
+  Number of functions evaluations: 18
+step: 62, train loss: 5.767898983322084e-06, train acuracy: 1.0
+step: 62, val loss: 0.12913626432418823, val acuracy: 0.9840000867843628
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000003
+  Number of iterations: 18
+  Number of functions evaluations: 20
+step: 63, train loss: 2.8511337859526975e-06, train acuracy: 1.0
+step: 63, val loss: 0.11818522959947586, val acuracy: 0.9841667413711548
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000001
+  Number of iterations: 17
+  Number of functions evaluations: 19
+step: 64, train loss: 1.3978826700622449e-06, train acuracy: 1.0
+step: 64, val loss: 0.11953572928905487, val acuracy: 0.9845001101493835
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000005
+  Number of iterations: 17
+  Number of functions evaluations: 19
+step: 65, train loss: 5.199829047342064e-06, train acuracy: 1.0
+step: 65, val loss: 0.11864498257637024, val acuracy: 0.984833300113678
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000003
+  Number of iterations: 12
+  Number of functions evaluations: 14
+step: 66, train loss: 2.6498278202780057e-06, train acuracy: 1.0
+step: 66, val loss: 0.1151716560125351, val acuracy: 0.9856667518615723
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000004
+  Number of iterations: 17
+  Number of functions evaluations: 19
+step: 67, train loss: 3.862317043967778e-06, train acuracy: 1.0
+step: 67, val loss: 0.1379109025001526, val acuracy: 0.9836667776107788
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000006
+  Number of iterations: 14
+  Number of functions evaluations: 16
+step: 68, train loss: 5.723328740714351e-06, train acuracy: 1.0
+step: 68, val loss: 0.13212943077087402, val acuracy: 0.9861667156219482
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000003
+  Number of iterations: 18
+  Number of functions evaluations: 20
+step: 69, train loss: 2.6227100988762686e-06, train acuracy: 1.0
+step: 69, val loss: 0.14828558266162872, val acuracy: 0.9850000739097595
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000004
+  Number of iterations: 17
+  Number of functions evaluations: 19
+step: 70, train loss: 4.207431629765779e-06, train acuracy: 1.0
+step: 70, val loss: 0.1464899480342865, val acuracy: 0.9840000867843628
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000009
+  Number of iterations: 13
+  Number of functions evaluations: 15
+step: 71, train loss: 9.212007171299774e-06, train acuracy: 1.0
+step: 71, val loss: 0.13605019450187683, val acuracy: 0.9843333959579468
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000007
+  Number of iterations: 13
+  Number of functions evaluations: 15
+step: 72, train loss: 7.160828317864798e-06, train acuracy: 1.0
+step: 72, val loss: 0.13694962859153748, val acuracy: 0.9860000610351562
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000003
+  Number of iterations: 15
+  Number of functions evaluations: 18
+step: 73, train loss: 2.745968458839343e-06, train acuracy: 1.0
+step: 73, val loss: 0.12575364112854004, val acuracy: 0.9855000972747803
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000002
+  Number of iterations: 17
+  Number of functions evaluations: 19
+step: 74, train loss: 2.061181021417724e-06, train acuracy: 1.0
+step: 74, val loss: 0.14064648747444153, val acuracy: 0.9840000867843628
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000005
+  Number of iterations: 15
+  Number of functions evaluations: 17
+step: 75, train loss: 4.529783836915158e-06, train acuracy: 1.0
+step: 75, val loss: 0.14717015624046326, val acuracy: 0.9835001230239868
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000003
+  Number of iterations: 17
+  Number of functions evaluations: 19
+step: 76, train loss: 3.4472329843993066e-06, train acuracy: 1.0
+step: 76, val loss: 0.13452164828777313, val acuracy: 0.9826667308807373
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000003
+  Number of iterations: 17
+  Number of functions evaluations: 19
+step: 77, train loss: 3.306942744529806e-06, train acuracy: 1.0
+step: 77, val loss: 0.12827950716018677, val acuracy: 0.98416668176651
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000004
+  Number of iterations: 17
+  Number of functions evaluations: 19
+step: 78, train loss: 3.960890353482682e-06, train acuracy: 1.0
+step: 78, val loss: 0.14103122055530548, val acuracy: 0.9833333492279053
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000002
+  Number of iterations: 14
+  Number of functions evaluations: 16
+step: 79, train loss: 2.2122917471278924e-06, train acuracy: 1.0
+step: 79, val loss: 0.15626654028892517, val acuracy: 0.9823333621025085
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000003
+  Number of iterations: 16
+  Number of functions evaluations: 18
+step: 80, train loss: 2.643586412887089e-06, train acuracy: 1.0
+step: 80, val loss: 0.13852249085903168, val acuracy: 0.9840000867843628
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000005
+  Number of iterations: 16
+  Number of functions evaluations: 19
+step: 81, train loss: 5.45133570994949e-06, train acuracy: 1.0
+step: 81, val loss: 0.14487187564373016, val acuracy: 0.9845001101493835
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000005
+  Number of iterations: 16
+  Number of functions evaluations: 18
+step: 82, train loss: 4.56107727586641e-06, train acuracy: 1.0
+step: 82, val loss: 0.13911408185958862, val acuracy: 0.986666738986969
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000003
+  Number of iterations: 19
+  Number of functions evaluations: 23
+step: 83, train loss: 2.8854051379312295e-06, train acuracy: 1.0
+step: 83, val loss: 0.12167474627494812, val acuracy: 0.9843333959579468
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000007
+  Number of iterations: 15
+  Number of functions evaluations: 18
+step: 84, train loss: 6.530580321850721e-06, train acuracy: 1.0
+step: 84, val loss: 0.12072062492370605, val acuracy: 0.9845001697540283
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000004
+  Number of iterations: 17
+  Number of functions evaluations: 20
+step: 85, train loss: 3.9439228203264065e-06, train acuracy: 1.0
+step: 85, val loss: 0.1247929185628891, val acuracy: 0.9856668710708618
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000005
+  Number of iterations: 14
+  Number of functions evaluations: 16
+step: 86, train loss: 5.138610504218377e-06, train acuracy: 1.0
+step: 86, val loss: 0.1410267949104309, val acuracy: 0.9833334684371948
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000005
+  Number of iterations: 15
+  Number of functions evaluations: 17
+step: 87, train loss: 4.758194336318411e-06, train acuracy: 1.0
+step: 87, val loss: 0.13104814291000366, val acuracy: 0.9843333959579468
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000002
+  Number of iterations: 15
+  Number of functions evaluations: 17
+step: 88, train loss: 2.2285910290520405e-06, train acuracy: 1.0
+step: 88, val loss: 0.13200250267982483, val acuracy: 0.9848334193229675
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000003
+  Number of iterations: 14
+  Number of functions evaluations: 16
+step: 89, train loss: 3.2653097150614485e-06, train acuracy: 1.0
+step: 89, val loss: 0.14020989835262299, val acuracy: 0.9846667051315308
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000002
+  Number of iterations: 14
+  Number of functions evaluations: 16
+step: 90, train loss: 2.070717982860515e-06, train acuracy: 1.0
+step: 90, val loss: 0.13714902102947235, val acuracy: 0.9860000610351562
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000003
+  Number of iterations: 16
+  Number of functions evaluations: 18
+step: 91, train loss: 2.8880403988296166e-06, train acuracy: 1.0
+step: 91, val loss: 0.12688274681568146, val acuracy: 0.9851667284965515
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000004
+  Number of iterations: 15
+  Number of functions evaluations: 17
+step: 92, train loss: 3.803999788942747e-06, train acuracy: 1.0
+step: 92, val loss: 0.12915919721126556, val acuracy: 0.9851667284965515
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000003
+  Number of iterations: 15
+  Number of functions evaluations: 17
+step: 93, train loss: 2.882542275983724e-06, train acuracy: 1.0
+step: 93, val loss: 0.12832418084144592, val acuracy: 0.9863333702087402
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000003
+  Number of iterations: 16
+  Number of functions evaluations: 18
+step: 94, train loss: 2.801186155920732e-06, train acuracy: 1.0
+step: 94, val loss: 0.12830297648906708, val acuracy: 0.9850000143051147
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000002
+  Number of iterations: 15
+  Number of functions evaluations: 17
+step: 95, train loss: 2.1393020688265096e-06, train acuracy: 1.0
+step: 95, val loss: 0.12849006056785583, val acuracy: 0.9843333959579468
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000002
+  Number of iterations: 15
+  Number of functions evaluations: 17
+step: 96, train loss: 2.4654893877595896e-06, train acuracy: 1.0
+step: 96, val loss: 0.1603078991174698, val acuracy: 0.9821667075157166
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000002
+  Number of iterations: 16
+  Number of functions evaluations: 18
+step: 97, train loss: 2.249841372758965e-06, train acuracy: 1.0
+step: 97, val loss: 0.12430249154567719, val acuracy: 0.9856667518615723
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000003
+  Number of iterations: 14
+  Number of functions evaluations: 16
+step: 98, train loss: 3.4927454635180766e-06, train acuracy: 1.0
+step: 98, val loss: 0.12718415260314941, val acuracy: 0.9861667156219482
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000007
+  Number of iterations: 12
+  Number of functions evaluations: 14
+step: 99, train loss: 7.223990905913524e-06, train acuracy: 1.0
+step: 99, val loss: 0.10874103754758835, val acuracy: 0.9875000715255737
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000006
+  Number of iterations: 12
+  Number of functions evaluations: 14
+step: 100, train loss: 6.167632818687707e-06, train acuracy: 1.0
+step: 100, val loss: 0.1136547103524208, val acuracy: 0.986833393573761
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000004
+  Number of iterations: 14
+  Number of functions evaluations: 16
+step: 101, train loss: 3.7840839013369987e-06, train acuracy: 1.0
+step: 101, val loss: 0.10983714461326599, val acuracy: 0.9853334426879883
+INFO:tensorflow:Optimization terminated with:
+  Message: b'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+  Objective function value: 0.000003
+  Number of iterations: 16
+  Number of functions evaluations: 20
+step: 102, train loss: 3.301513288533897e-06, train acuracy: 1.0
+step: 102, val loss: 0.12914957106113434, val acuracy: 0.9841667413711548
+INFO:tensorflow:Optimization terminated with:
