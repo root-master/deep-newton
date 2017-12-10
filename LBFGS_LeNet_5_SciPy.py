@@ -216,7 +216,6 @@ loss = tf.reduce_mean(
 correct_prediction = tf.equal(tf.argmax(output, 1), tf.argmax(y, 1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 optimizer = tf.contrib.opt.ScipyOptimizerInterface(loss, options={'maxiter': 100})
-train = optimizer.minimize()
 
 print('----------------------------------------------')
 print('TRAINGING REFERENCE NET for LeNet-5')
@@ -236,6 +235,8 @@ test_accuracy_steps = np.zeros(total_minibatches)
 ################### TO SAVE MODEL ##################
 # model_file_name = 'reference_model_lenet_5.ckpt'
 # model_file_path = './model_lenet_5/' + model_file_name 
+saver = tf.train.Saver()
+init = tf.global_variables_initializer()
 
 ############################## L-BFGS #########################################
 with tf.Session() as sess:
@@ -255,7 +256,7 @@ with tf.Session() as sess:
 		feed_dict = {x: X_batch,
 					 y: y_batch}
 
-		sess.run(train,feed_dict=feed_dict)
+		optimizer.minimize(sess,feed_dict=feed_dict)
 		
 		############### LOSS AND ACCURACY EVALUATION ##########################
 		train_loss, train_accuracy = \
