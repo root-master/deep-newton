@@ -360,7 +360,7 @@ def compute_multibatch_gradient(sess,grad_tf,feed_dict,X_train,y_train):
 				gw[layer] = gw[layer] + gw_list[layer][0]
 
 	for layer, _ in weights.items():
-		gw[layer] = gw[layer] * 1 / num_minibatches_data	
+		gw[layer] = gw[layer] * 1 / num_minibatches_here	
 	return gw
 
 
@@ -398,7 +398,7 @@ def compute_multibatch_tensor(sess,tensor_tf,feed_dict,X_train,y_train):
 		value = sess.run(tensor_tf, feed_dict=feed_dict)
 		total = total + value
 
-	total = total * 1 / num_minibatches_data	
+	total = total * 1 / num_minibatches_here	
 	return total
 
 
