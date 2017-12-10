@@ -542,7 +542,7 @@ with tf.Session() as sess:
 		############## FINDING ALPHA TO SATISFY ################################
 		############## WOLFE CONDITIONS ########################################
 		########################################################################
-		alpha_step_vec = np.linspace(1.0,0.0,20,dtype='float')
+		alpha_step_vec = np.linspace(1.0,0.0,5,dtype='float')
 		c1 = 1E-4
 		c2 = 0.9
 		if k ==0:
@@ -662,8 +662,9 @@ with tf.Session() as sess:
 		# 		sess.run([loss, accuracy], feed_dict = {x: X_batch, 
 		# 											    y: y_batch} )
 		
+		train_loss = new_f
 		train_accuracy = compute_whole_tensor(sess,accuracy,feed_dict={})
-		train_loss_steps[k] = new_f
+		train_loss_steps[k] = train_loss
 		train_accuracy_steps[k] = train_accuracy
 
 		val_loss, val_accuracy = \
