@@ -488,8 +488,9 @@ with tf.Session() as sess:
 		end_index   = (index_minibatch+1) * minibatch
 		X_batch = X_train[start_index:end_index]
 		y_batch = y_train[start_index:end_index]
-			feed_dict = {x: X_batch,
+		feed_dict = {x: X_batch,
 						 y: y_batch}
+		
 		if k < m:
 			mp = k
 		else:
