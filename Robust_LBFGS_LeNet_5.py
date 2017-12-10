@@ -384,9 +384,9 @@ def compute_whole_gradient(sess,grad_tf,feed_dict):
 		feed_dict.update({	x: X_batch,
 							y: y_batch})
 
-		gw = {}
 		gw_list = sess.run(grad_tf, feed_dict=feed_dict)
 		if j == 0:		
+			gw = {}
 			for layer, _ in weights.items():
 				gw[layer] = gw_list[layer][0]
 		else:
@@ -394,13 +394,37 @@ def compute_whole_gradient(sess,grad_tf,feed_dict):
 				gw[layer] = gw[layer] + gw_list[layer][0]
 
 	for layer, _ in weights.items():
-		gw[layer] = gw[layer] * 1 / num_minibatches_data
-	
+		gw[layer] = gw[layer] * 1 / num_minibatches_data	
 	return gw
+
+def compute_whole_tensor(sess,tensor_tf,feed_dict):
+	total = 0
+	for j in range(num_minibatches_data):
+		index_minibatch = j % num_minibatches_data
+		# mini batch 
+		start_index = index_minibatch     * minibatch
+		end_index   = (index_minibatch+1) * minibatch
+		X_batch = X_train[start_index:end_index]
+		y_batch = y_train[start_index:end_index]
+		feed_dict.update({	x: X_batch,
+							y: y_batch})
+
+		value = sess.run(tensor_tf, feed_dict=feed_dict)
+		total = total + value
+
+	total = total * 1 / num_minibatches_data	
+	return total
+
 
 
 with tf.Session() as sess:
 	sess.run(init)
+	new_grad_w = {}
+	old_grad_w = {}
+	old_f = 0
+	new_f = 0
+	old_grad_w = {}
+	new_grad_w = {}
 	X_train, y_train = shuffle_data(data)
 	for k in range(total_steps):				
 		# compute the subsampled gradient for minibatch of data
@@ -414,30 +438,33 @@ with tf.Session() as sess:
 		################# compute the whole gradient ###########################
 		########################################################################
 		# old_grad_w = compute_whole_gradient(sess,grad_w,feed_dict)
-		feed_dict = {}
-		for j in range(num_minibatches_data):
-			index_minibatch = j % num_minibatches_data
-			# mini batch 
-			start_index = index_minibatch     * minibatch
-			end_index   = (index_minibatch+1) * minibatch
-			X_batch = X_train[start_index:end_index]
-			y_batch = y_train[start_index:end_index]
-			feed_dict.update({	x: X_batch,
-								y: y_batch})
+		# feed_dict = {}
+		# for j in range(num_minibatches_data):
+		# 	index_minibatch = j % num_minibatches_data
+		# 	# mini batch 
+		# 	start_index = index_minibatch     * minibatch
+		# 	end_index   = (index_minibatch+1) * minibatch
+		# 	X_batch = X_train[start_index:end_index]
+		# 	y_batch = y_train[start_index:end_index]
+		# 	feed_dict.update({	x: X_batch,
+		# 						y: y_batch})
 
-			gw_list = sess.run(grad_w, feed_dict=feed_dict)
-			if j == 0:		
-				gw = {}
-				for layer, _ in weights.items():
-					gw[layer] = gw_list[layer][0]
-			else:
-				for layer, _ in weights.items():
-					gw[layer] = gw[layer] + gw_list[layer][0]
+		# 	gw_list = sess.run(grad_w, feed_dict=feed_dict)
+		# 	if j == 0:		
+		# 		gw = {}
+		# 		for layer, _ in weights.items():
+		# 			gw[layer] = gw_list[layer][0]
+		# 	else:
+		# 		for layer, _ in weights.items():
+		# 			gw[layer] = gw[layer] + gw_list[layer][0]
 
-		for layer, _ in weights.items():
-			gw[layer] = gw[layer] * 1 / num_minibatches_data
+		# for layer, _ in weights.items():
+		# 	gw[layer] = gw[layer] * 1 / num_minibatches_data
 
-		old_grad_w = gw
+		if k == 0:
+			old_grad_w = compute_whole_gradient(sess,grad_tf,feed_dict)
+		else:
+			old_grad_w = new_grad_w
 		########################################################################
 		################# END compute the whole gradient #######################
 		########################################################################
@@ -517,17 +544,22 @@ with tf.Session() as sess:
 		c2 = 0.9
 		old_w = sess.run(weights)
 		feed_dict = {}
+		if k == 0:
+			old_f = compute_whole_tensor(sess,loss,feed_dict)
+		else:
+			old_f = new_f
+
 		for alpha_step in alpha_step_vec:
 			new_w = {}
+			feed_dict = {}
 			for layer, _ in weights.items():
 				new_w[layer] = old_w[layer] + alpha_step * p_val[layer]
-			feed_dict.update({	x: X_train,
-								y: y_train})
-			old_f = sess.run(loss, feed_dict=feed_dict)
+
 			for layer, _ in weights.items():
 				feed_dict.update({aux_w_placeholder[layer]: new_w[layer]})
 			sess.run(aux_w_init, feed_dict=feed_dict)
-			new_f = sess.run(aux_loss,feed_dict=feed_dict)			
+			# new_f = sess.run(aux_loss,feed_dict=feed_dict)
+			new_f = compute_whole_tensor(sess,aux_loss,feed_dict)		
 			gradTp = 0
 			
 			for layer, _ in weights.items():
@@ -544,29 +576,29 @@ with tf.Session() as sess:
 			################# compute the whole gradient for k+1 ###############
 			####################################################################
 			# old_grad_w = compute_whole_gradient(sess,grad_w,feed_dict)
-			for j in range(num_minibatches_data):
-				index_minibatch = j % num_minibatches_data
-				# mini batch 
-				start_index = index_minibatch     * minibatch
-				end_index   = (index_minibatch+1) * minibatch
-				X_batch = X_train[start_index:end_index]
-				y_batch = y_train[start_index:end_index]
-				feed_dict.update({	x: X_batch,
-									y: y_batch})
+			# for j in range(num_minibatches_data):
+			# 	index_minibatch = j % num_minibatches_data
+			# 	# mini batch 
+			# 	start_index = index_minibatch     * minibatch
+			# 	end_index   = (index_minibatch+1) * minibatch
+			# 	X_batch = X_train[start_index:end_index]
+			# 	y_batch = y_train[start_index:end_index]
+			# 	feed_dict.update({	x: X_batch,
+			# 						y: y_batch})
 
-				gw_list = sess.run(aux_grad_w, feed_dict=feed_dict)
-				if j == 0:		
-					gw = {}
-					for layer, _ in weights.items():
-						gw[layer] = gw_list[layer][0]
-				else:
-					for layer, _ in weights.items():
-						gw[layer] = gw[layer] + gw_list[layer][0]
+			# 	gw_list = sess.run(aux_grad_w, feed_dict=feed_dict)
+			# 	if j == 0:		
+			# 		gw = {}
+			# 		for layer, _ in weights.items():
+			# 			gw[layer] = gw_list[layer][0]
+			# 	else:
+			# 		for layer, _ in weights.items():
+			# 			gw[layer] = gw[layer] + gw_list[layer][0]
 
-			for layer, _ in weights.items():
-				gw[layer] = gw[layer] * 1 / num_minibatches_data
+			# for layer, _ in weights.items():
+			# 	gw[layer] = gw[layer] * 1 / num_minibatches_data
 
-			new_grad_w = gw
+			new_grad_w = compute_whole_gradient(sess,aux_grad_w,feed_dict)
 			########################################################################
 			################# END compute the whole gradient #######################
 			########################################################################
