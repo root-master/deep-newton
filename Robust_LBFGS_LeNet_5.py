@@ -371,7 +371,10 @@ with tf.Session() as sess:
 	feed_dict = {}
 	X_train, y_train = shuffle_data(data)
 	for k in range(total_steps):				
-		old_grad_w = compute_whole_gradient(sess,grad_w,feed_dict)
+		if k == 0:
+			old_grad_w = compute_whole_gradient(sess,grad_w,feed_dict)
+		else:
+			old_grad_w = new_grad_w
 		if k < m:
 			mp = k
 		else:
