@@ -1,1 +1,0 @@
-a folder for saving tensorflow models

@@ -17232,6 +17232,7 @@ architecture: LeNet-5 --- Data Set: MNIST
 ----------------------------------------------
 TRAINGING REFERENCE NET for LeNet-5
 ----------------------------------------------
+m=15, b=1024
 step: 0, train loss: 2.3499231338500977, train acuracy: 0.169921875
 step: 0, val loss: 2.384284019470215, val acuracy: 0.16133332252502441
 step: 1, train loss: 2.255868434906006, train acuracy: 0.294921875
@@ -18060,6 +18061,7 @@ architecture: LeNet-5 --- Data Set: MNIST
 ----------------------------------------------
 TRAINGING REFERENCE NET for LeNet-5
 ----------------------------------------------
+m=20, batch = 128
 step: 0, train loss: 2.4134409427642822, train acuracy: 0.140625
 step: 0, val loss: 2.6077523231506348, val acuracy: 0.09816666692495346
 step: 1, train loss: 2.247610569000244, train acuracy: 0.1640625
@@ -18888,6 +18890,7 @@ architecture: LeNet-5 --- Data Set: MNIST
 ----------------------------------------------
 TRAINGING REFERENCE NET for LeNet-5
 ----------------------------------------------
+m=20, bathc =256
 step: 0, train loss: 2.333765745162964, train acuracy: 0.1328125
 step: 0, val loss: 2.409027576446533, val acuracy: 0.09183333814144135
 step: 1, train loss: 2.3395919799804688, train acuracy: 0.09375
@@ -19716,6 +19719,7 @@ architecture: LeNet-5 --- Data Set: MNIST
 ----------------------------------------------
 TRAINGING REFERENCE NET for LeNet-5
 ----------------------------------------------
+m=20, batch=512
 step: 0, train loss: 2.3583827018737793, train acuracy: 0.173828125
 step: 0, val loss: 2.4181628227233887, val acuracy: 0.19499999284744263
 step: 1, train loss: 2.2508091926574707, train acuracy: 0.28515625

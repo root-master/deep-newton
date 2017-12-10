@@ -23,7 +23,7 @@ parser.add_argument(
         '--storage', '-m', default=20,
         help='The Memory Storage')
 parser.add_argument(
-        '--mini_batch', '-batch', default=512,
+        '--mini_batch', '-batch', default=1024,
         help='minibatch size')
 parser.add_argument(
         '--whole_gradient', action='store_true',default=False,
@@ -285,99 +285,7 @@ for layer, _ in weights.items():
 										shape=weights[layer].get_shape())
 for layer, _ in weights.items():
 	update_w[layer] = weights[layer].assign(update_w_placeholder[layer])
-###############################################################################
-######################## LBFGS GRAPH ##########################################
-###############################################################################
-# q_tf = {}
-# for layer, _ in weights.items():
-# 	q_tf[layer] = tf.placeholder("float",weights[layer].get_shape())
 
-# q = {}
-# for layer, _ in weights.items():
-# 	name = layer + 'q'
-# 	q[layer] = tf.get_variable(shape=weights[layer].get_shape(),name=name)
-
-# init_q = {}
-# for layer, _ in weights.items():
-# 	init_q[layer] = q[layer].assign(q_tf[layer])
-
-# rho = {}
-# sTq = {}
-# yTr = {}
-# yTs = {}
-# alpha = {}
-# beta = tf.Variable(initial_value=[0.0])
-# gamma = tf.Variable(initial_value=[0.0])
-# sTy = tf.Variable(initial_value=[0.0])
-# # initialization
-# for k in range(m-1,-1,-1):
-# 	i = str(k)
-# 	rho[i] = tf.Variable(initial_value=[1.0])
-# 	sTq[i] = tf.Variable(initial_value=[0.0])
-# 	yTr[i] = tf.Variable(initial_value=[0.0])
-# 	yTs[i] = tf.Variable(initial_value=[0.0])
-# 	alpha[i] = tf.Variable(initial_value=[0.0])
-
-# zero_tf = tf.placeholder("float",shape=[None])
-# one_tf = tf.placeholder("float",shape=[None])
-# init_loop_var = {}
-# init_loop_var[beta] = beta.assign(zero_tf)
-# init_loop_var[gamma] = gamma.assign(zero_tf)
-# init_loop_var[sTy] = sTy.assign(zero_tf)
-# for k in range(m-1,-1,-1):
-# 	i = str(k)
-# 	init_loop_var[rho[i]] = rho[i].assign(zero_tf)
-# 	init_loop_var[sTq[i]] = sTq[i].assign(zero_tf)
-# 	init_loop_var[yTr[i]] = yTr[i].assign(zero_tf)
-# 	init_loop_var[yTs[i]] = yTs[i].assign(zero_tf)
-# 	init_loop_var[alpha[i]] = alpha[i].assign(zero_tf)
-
-# def search_direction(mp=0):	
-# 	for k in range(mp-1,-1,-1):
-# 		i = str(k)
-# 		for layer, _ in weights.items():
-# 			yTs[i] = tf.add(yTs[i], \
-# 				tf.reduce_sum( tf.multiply(S[i][layer],Y[i][layer] )))#))
-
-# 		for layer, _ in weights.items():		
-# 			rho[i] = tf.reciprocal(yTs[i])
-
-# 		for layer, _ in weights.items():
-# 			sTq[i] = tf.add( sTq[i] , \
-# 				tf.reduce_sum(tf.multiply(S[i][layer],q[layer] )))
-# 		alpha[i] = tf.multiply(rho[i],sTq[i])
-		
-# 		for layer, _ in weights.items():
-# 			q[layer] = tf.subtract(q[layer], tf.multiply(alpha[i],Y[i][layer]))
-
-# 	r = {}
-# 	for layer, _ in weights.items():
-# 		r[layer] = tf.identity(q[layer])
-	
-# 	global sTy
-# 	if (mp >=1 ):
-# 		for layer, _ in weights.items(): 
-# 			sTy = tf.add(sTy , tf.reduce_sum(tf.multiply( 
-# 												S[str(mp-1)][layer], 
-# 												Y[str(mp-1)][layer])))
-# 		gamma = tf.div(sTy,rho[str(mp-1)])
-# 		for layer,_ in weights.items():
-# 			r[layer] = tf.multiply(gamma , q[layer])
-
-# 	for k in range(mp):
-# 	 	i = str(k)
-# 	 	for layer, _ in weights.items():
-# 	 		yTr[i] = tf.add(yTr[i],tf.reduce_sum(tf.multiply(Y[i][layer],
-# 	 														 r[layer] )))
-# 	 	beta = tf.multiply(rho[i], yTr[i])
-
-# 	 	for layer, _ in weights.items():
-# 	 		r[layer] = tf.add(r[layer],tf.multiply(tf.subtract(alpha[i],beta),
-# 	 															   S[i][layer]))
-# 	p = {}
-# 	for layer, _ in weights.items():
-# 		p[layer] = tf.negative(r[layer])
-# 	return p		
 def search_direction(mp,old_grad_w):	
 	q = old_grad_w
 	yTs = {}
@@ -450,60 +358,97 @@ print('----------------------------------------------')
 ################### TO SAVE TRAINING AND TEST LOSS AND ERROR ##################
 ################### FOR REFERENCE NET #########################################
 # Total minibatches
-total_minibatches = 400
+total_steps = 1
+# total_minibatches = 400
 # number of minibatches in data
 num_minibatches_data = data.train.images.shape[0] // minibatch
 
-num_epoch_ref = total_minibatches // num_minibatches_data
-epoch_ref_vec = np.array(range(num_epoch_ref+1)) 
-train_loss_ref = np.zeros(num_epoch_ref+1)
-train_error_ref = np.zeros(num_epoch_ref+1)
-val_loss_ref = np.zeros(num_epoch_ref+1)
-val_error_ref = np.zeros(num_epoch_ref+1)
-test_loss_ref = np.zeros(num_epoch_ref+1)
-test_error_ref = np.zeros(num_epoch_ref+1)
-
-train_loss_steps = np.zeros(total_minibatches)
-train_accuracy_steps = np.zeros(total_minibatches)
-test_loss_steps = np.zeros(total_minibatches)
-test_accuracy_steps = np.zeros(total_minibatches)
-
+train_loss_steps = np.zeros(total_steps)
+train_error_steps = np.zeros(total_steps)
+val_loss_steps = np.zeros(total_steps)
+val_error_steps = np.zeros(total_steps)
+test_loss_steps = np.zeros(total_steps)
+test_error_steps = np.zeros(total_steps)
 ################### TO SAVE MODEL ##################
-# model_file_name = 'reference_model_lenet_5.ckpt'
-# model_file_path = './model_lenet_5/' + model_file_name 
-
+model_file_name = 'robust_LBFGS_model_lenet_5.ckpt'
+model_file_path = './model/' + model_file_name 
 ############################## L-BFGS #########################################
-with tf.Session() as sess:
-	sess.run(init)
-	for k in range(total_minibatches):
-		feed_dict = {}
-		index_minibatch = k % num_minibatches_data
-		epoch = k // num_minibatches_data		
-		# shuffle data at the begining of each epoch
-		if index_minibatch == 0:
-		 	X_train, y_train = shuffle_data(data)
- 		# mini batch 
+def compute_whole_gradient(sess,grad_tf,feed_dict):
+	for j in range(num_minibatches_data):
+		index_minibatch = j % num_minibatches_data
+		# mini batch 
 		start_index = index_minibatch     * minibatch
 		end_index   = (index_minibatch+1) * minibatch
 		X_batch = X_train[start_index:end_index]
 		y_batch = y_train[start_index:end_index]
-		feed_dict = {x: X_batch,
-					 y: y_batch}
+		feed_dict.update({	x: X_batch,
+							y: y_batch})
 
+		gw = {}
+		gw_list = sess.run(grad_tf, feed_dict=feed_dict)
+		if j == 0:		
+			for layer, _ in weights.items():
+				gw[layer] = gw_list[layer][0]
+		else:
+			for layer, _ in weights.items():
+				gw[layer] = gw[layer] + gw_list[layer][0]
+
+	for layer, _ in weights.items():
+		gw[layer] = gw[layer] * 1 / num_minibatches_data
+	
+	return gw
+
+
+with tf.Session() as sess:
+	sess.run(init)
+	X_train, y_train = shuffle_data(data)
+	for k in range(total_steps):				
 		# compute the subsampled gradient for minibatch of data
-		old_grad_w = {}
-		old_grad_w_list = sess.run(grad_w, feed_dict=feed_dict)	
+		# feed_dict = {}
+		# old_grad_w = {}
+		# old_grad_w_list = sess.run(grad_w, feed_dict=feed_dict)	
+		# for layer, _ in weights.items():
+		# 	old_grad_w[layer] = old_grad_w_list[layer][0]
+
+		########################################################################
+		################# compute the whole gradient ###########################
+		########################################################################
+		# old_grad_w = compute_whole_gradient(sess,grad_w,feed_dict)
+		feed_dict = {}
+		for j in range(num_minibatches_data):
+			index_minibatch = j % num_minibatches_data
+			# mini batch 
+			start_index = index_minibatch     * minibatch
+			end_index   = (index_minibatch+1) * minibatch
+			X_batch = X_train[start_index:end_index]
+			y_batch = y_train[start_index:end_index]
+			feed_dict.update({	x: X_batch,
+								y: y_batch})
+
+			gw_list = sess.run(grad_w, feed_dict=feed_dict)
+			if j == 0:		
+				gw = {}
+				for layer, _ in weights.items():
+					gw[layer] = gw_list[layer][0]
+			else:
+				for layer, _ in weights.items():
+					gw[layer] = gw[layer] + gw_list[layer][0]
+
 		for layer, _ in weights.items():
-			old_grad_w[layer] = old_grad_w_list[layer][0]
+			gw[layer] = gw[layer] * 1 / num_minibatches_data
+
+		old_grad_w = gw
+		########################################################################
+		################# END compute the whole gradient #######################
+		########################################################################
 
 		if k < m:
 			mp = k
 		else:
 			mp = m
 		
-		#p_val = search_direction(mp,old_grad_w)
 		########################################################################
-		####################### SEARCH DIRECTION TO DEBUG ######################
+		####################### SEARCH DIRECTION ###############################
 		########################################################################
 		q = old_grad_w
 		yTs = {}
@@ -564,32 +509,24 @@ with tf.Session() as sess:
 			p[layer] = -1 * r[layer]
 		p_val = p		
 		########################################################################
-		########################################################################
-		########################################################################
-
-
-
-
-
-		# alpha_step, old_f, old_w, new_f, new_w, old_grad_w, new_grad_w = \
-		# 			Wolfe_conditions(sess,feed_dict,grad_val,p_val)
-		########################################################################
 		############## FINDING ALPHA TO SATISFY ################################
 		############## WOLFE CONDITIONS ########################################
 		########################################################################
-		alpha_step_vec = np.linspace(1.0,0.1,20,dtype='float')
+		alpha_step_vec = np.linspace(1.0,0.0,20,dtype='float')
 		c1 = 1E-4
 		c2 = 0.9
 		old_w = sess.run(weights)
+		feed_dict = {}
 		for alpha_step in alpha_step_vec:
 			new_w = {}
 			for layer, _ in weights.items():
 				new_w[layer] = old_w[layer] + alpha_step * p_val[layer]
+			feed_dict.update({	x: X_train,
+								y: y_train})
 			old_f = sess.run(loss, feed_dict=feed_dict)
-			feed_dict_aux = feed_dict
 			for layer, _ in weights.items():
-				feed_dict_aux.update({aux_w_placeholder[layer]: new_w[layer]})
-			sess.run(aux_w_init, feed_dict=feed_dict_aux)
+				feed_dict.update({aux_w_placeholder[layer]: new_w[layer]})
+			sess.run(aux_w_init, feed_dict=feed_dict)
 			new_f = sess.run(aux_loss,feed_dict=feed_dict)			
 			gradTp = 0
 			
@@ -603,11 +540,41 @@ with tf.Session() as sess:
 			else:
 				Wolfe_cond_1 = False
 
-			new_grad_w_list= sess.run(aux_grad_w,feed_dict=feed_dict)
-			new_grad_w = {}
-			for layer, _ in weights.items():
-				new_grad_w[layer] = new_grad_w_list[layer][0]
+			####################################################################
+			################# compute the whole gradient for k+1 ###############
+			####################################################################
+			# old_grad_w = compute_whole_gradient(sess,grad_w,feed_dict)
+			for j in range(num_minibatches_data):
+				index_minibatch = j % num_minibatches_data
+				# mini batch 
+				start_index = index_minibatch     * minibatch
+				end_index   = (index_minibatch+1) * minibatch
+				X_batch = X_train[start_index:end_index]
+				y_batch = y_train[start_index:end_index]
+				feed_dict.update({	x: X_batch,
+									y: y_batch})
 
+				gw_list = sess.run(aux_grad_w, feed_dict=feed_dict)
+				if j == 0:		
+					gw = {}
+					for layer, _ in weights.items():
+						gw[layer] = gw_list[layer][0]
+				else:
+					for layer, _ in weights.items():
+						gw[layer] = gw[layer] + gw_list[layer][0]
+
+			for layer, _ in weights.items():
+				gw[layer] = gw[layer] * 1 / num_minibatches_data
+
+			new_grad_w = gw
+			########################################################################
+			################# END compute the whole gradient #######################
+			########################################################################
+
+			# new_grad_w_list= sess.run(aux_grad_w,feed_dict=feed_dict)
+			# new_grad_w = {}
+			# for layer, _ in weights.items():
+			# 	new_grad_w[layer] = new_grad_w_list[layer][0]
 
 			new_grad_wTp = 0
 			for layer, _ in weights.items():
@@ -668,10 +635,9 @@ with tf.Session() as sess:
 			.format(k, val_loss, val_accuracy) )
 
 # save the results
-result_path = './results_LBFGS' + '_m_' + str(m) + '_minibatch_' + str(minibatch)
-with open(result_path,'wb') as f:
-	pickle.dump(train_loss_steps,f)
-	pickle.dump(train_accuracy_steps,f)
-	pickle.dump(test_loss_steps,f)
-	pickle.dump(test_accuracy_steps,f)
+result_path = './results_robust_LBFGS' + '_m_' + str(m)
+np.savez(result_path,train_loss_steps=train_loss_steps,
+					train_accuracy_steps=train_accuracy_steps,
+					test_loss_steps = test_loss_steps,
+					test_accuracy_steps=test_accuracy_steps)
 
