@@ -452,11 +452,8 @@ with tf.Session() as sess:
 		alpha_step_vec = np.linspace(1.0,0.0,5,dtype='float')
 		c1 = 1E-4
 		c2 = 0.9
-		if k ==0:
-			old_w = sess.run(weights)
-		else:
-			old_w = new_w
-
+		old_w = sess.run(weights)
+		
 		feed_dict = {}
 		if k == 0:
 			old_f = compute_whole_tensor(sess,loss,feed_dict)
