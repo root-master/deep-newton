@@ -523,7 +523,8 @@ with tf.Session() as sess:
 		# 											    y: y_batch} )
 		
 		train_loss = new_f
-		train_accuracy = compute_whole_tensor(sess,accuracy,feed_dict={},X_train, y_train)
+		feed_dict = {};
+		train_accuracy = compute_whole_tensor(sess,accuracy,feed_dict,X_train, y_train)
 		train_loss_steps[k] = train_loss
 		train_accuracy_steps[k] = train_accuracy
 
