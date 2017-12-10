@@ -508,8 +508,8 @@ with tf.Session() as sess:
 		norm_grad = 0
 		for layer, _ in weights.items():
 			norm_grad = norm_grad + LA.norm(old_grad_w[layer])
-		if norm_grad < 1E-5:
-			break
+		# if norm_grad < 1E-5:
+		# 	break
 		########################################################################
 		############## UPDATE Weights ##########################################
 		########################################################################		
