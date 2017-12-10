@@ -462,7 +462,7 @@ with tf.Session() as sess:
 				feed_dict.update({aux_w_placeholder[layer]: new_w[layer]})
 			sess.run(aux_w_init, feed_dict=feed_dict)
 			# new_f = sess.run(aux_loss,feed_dict=feed_dict)
-			new_f = compute_whole_tensor(sess,aux_loss,feed_dict)		
+			new_f = compute_whole_tensor(sess,aux_loss,feed_dict,X_train,y_train)		
 			gradTp = 0
 			
 			for layer, _ in weights.items():
