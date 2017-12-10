@@ -506,8 +506,9 @@ with tf.Session() as sess:
 		
 		feed_dict = {}
 		
-		old_f = compute_whole_tensor(sess,loss,feed_dict,X_train, y_train)
-		
+		# old_f = compute_whole_tensor(sess,loss,feed_dict,X_train, y_train)
+		old_f = compute_multibatch_tensor(sess,loss,feed_dict,	X_train_multi, 
+																y_train_multi)
 		for alpha_step in alpha_step_vec:
 			new_w = {}
 			feed_dict = {}
@@ -518,7 +519,9 @@ with tf.Session() as sess:
 				feed_dict.update({aux_w_placeholder[layer]: new_w[layer]})
 			sess.run(aux_w_init, feed_dict=feed_dict)
 			# new_f = sess.run(aux_loss,feed_dict=feed_dict)
-			new_f = compute_whole_tensor(sess,aux_loss,feed_dict,X_train,y_train)		
+			# new_f = compute_whole_tensor(sess,aux_loss,feed_dict,X_train,y_train)		
+			new_f = compute_multibatch_tensor(sess,aux_loss,feed_dict,X_train_multi,
+																	y_train_multi)		
 			gradTp = 0
 			
 			for layer, _ in weights.items():
@@ -582,7 +585,10 @@ with tf.Session() as sess:
 		
 		train_loss = new_f
 		feed_dict = {};
-		train_accuracy = compute_whole_tensor(sess,accuracy,feed_dict,X_train, y_train)
+		# train_accuracy = compute_whole_tensor(sess,accuracy,feed_dict,X_train, y_train)
+		train_accuracy = compute_multibatch_tensor(sess,accuracy,feed_dict,
+												X_train_multi, y_train_multi)
+
 		train_loss_steps[k] = train_loss
 		train_accuracy_steps[k] = train_accuracy
 
